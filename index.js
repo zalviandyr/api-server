@@ -1,3 +1,4 @@
+const fs = require('fs')
 const express = require('express')
 
 // my library
@@ -21,5 +22,6 @@ app.get('/temp', (req, res) => {
 })
 
 app.listen(port, () => {
+    fs.mkdirSync('./storage', { recursive: true })
     console.log(`server started at port: ${port}`)
 })
