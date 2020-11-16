@@ -4,14 +4,14 @@ const ytdl = require('ytdl-core')
 
 // my library
 const endpoint = require('./lib/endpoint')
-const { formatBytes, getVideoID } = require('./lib/helpers')
+const { formatBytes } = require('./lib/helpers')
 
 const app = express()
 const api = express.Router()
 const port = process.env.PORT || 4000
 
 api.get('/yt-video', (req, res) => {
-    endpoint.ytVideo(req.headers.host, req.query)
+    endpoint.ytVideo(req.connection.encrypted, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => {
@@ -20,7 +20,7 @@ api.get('/yt-video', (req, res) => {
 })
 
 api.get('/yt-audio', (req, res) => {
-    endpoint.ytAudio(req.headers.host, req.query)
+    endpoint.ytAudio(req.connection.encrypted, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => {
@@ -53,14 +53,7 @@ api.get('/yt-audio/download', (req, res) => {
 })
 
 api.get('/temp', (req, res) => {
-    // const url = 'https://www.youtube.com/watch?v=R19uQyfwqhg'
-    // const url = 'https://www.youtube.com/watch?v=kUX9sPALG5g'
-    try {
-        const url = 'https://www.youtube.com/watch?v=kPA@SDg'
-        console.log(getVideoID(url))
-    } catch (err) {
-        console.log(err.message)
-    }
+    console.log(req.connection.encrypted)
     res.send(formatBytes(50000000).toString())
 })
 
