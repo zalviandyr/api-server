@@ -19,16 +19,13 @@ api.get('/yt-video', (req, res) => {
         })
 })
 
-api.get('/temp', (req, res) => {
-    // const url = 'https://www.youtube.com/watch?v=R19uQyfwqhg'
-    // const url = 'https://www.youtube.com/watch?v=kUX9sPALG5g'
-    try {
-        const url = 'https://www.youtube.com/watch?v=kPA@SDg'
-        console.log(getVideoID(url))
-    } catch (err) {
-        console.log(err.message)
-    }
-    res.send(formatBytes(50000000).toString())
+api.get('/yt-audio', (req, res) => {
+    endpoint.ytAudio(req.headers.host, req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.send(err.message)
+        })
 })
 
 api.get('/yt-video/download', (req, res) => {
@@ -43,8 +40,37 @@ api.get('/yt-video/download', (req, res) => {
         .pipe(res)
 })
 
-// start server
+api.get('/yt-audio/download', (req, res) => {
+    const videoID = req.query.id
+    const title = req.query.title
+    const ext = req.query.ext
+    const fileName = title + '.' + ext
+    res.header('Content-Disposition', `attachment; filename=${fileName}`)
+
+    const url = `https://www.youtube.com/watch?v=${videoID}`
+    ytdl(url, { quality: 'highestaudio', filter: 'audioonly' })
+        .pipe(res)
+})
+
+api.get('/temp', (req, res) => {
+    // const url = 'https://www.youtube.com/watch?v=R19uQyfwqhg'
+    // const url = 'https://www.youtube.com/watch?v=kUX9sPALG5g'
+    try {
+        const url = 'https://www.youtube.com/watch?v=kPA@SDg'
+        console.log(getVideoID(url))
+    } catch (err) {
+        console.log(err.message)
+    }
+    res.send(formatBytes(50000000).toString())
+})
+
+// base url
 app.use('/api', api)
+app.get('/', (req, res) => {
+    res.send('Whatsapp bot api by Zukron Alviandy R')
+})
+
+// start server
 app.listen(port, () => {
     // TODO delete this line
     fs.mkdirSync('./storage', { recursive: true })
