@@ -11,7 +11,7 @@ const api = express.Router()
 const port = process.env.PORT || 4000
 
 api.get('/yt-video', (req, res) => {
-    endpoint.ytVideo(req.connection.encrypted, req.headers.host, req.query)
+    endpoint.ytVideo(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => {
@@ -20,7 +20,7 @@ api.get('/yt-video', (req, res) => {
 })
 
 api.get('/yt-audio', (req, res) => {
-    endpoint.ytAudio(req.connection.encrypted, req.headers.host, req.query)
+    endpoint.ytAudio(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => {
@@ -53,7 +53,7 @@ api.get('/yt-audio/download', (req, res) => {
 })
 
 api.get('/temp', (req, res) => {
-    console.log(req.connection.encrypted)
+    console.log(req.protocol)
     res.send(formatBytes(50000000).toString())
 })
 
