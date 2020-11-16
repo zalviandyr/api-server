@@ -58,6 +58,7 @@ api.get('/temp', (req, res) => {
 })
 
 // base url
+app.enable('trust proxy')
 app.use('/api', api)
 app.get('/', (req, res) => {
     res.send('Whatsapp bot api by Zukron Alviandy R')
