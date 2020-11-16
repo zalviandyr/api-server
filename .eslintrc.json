@@ -16,6 +16,7 @@
         "max-len": "off",
         "no-console": "off",
         "no-labels": "off",
-        "prefer-destructuring": "off"
+        "prefer-destructuring": "off",
+        "prefer-template": "off"
     }
 }

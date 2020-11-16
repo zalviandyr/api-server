@@ -18,9 +18,11 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7",
+    "url": "^0.11.0",
     "ytdl-core": "^4.0.4"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1"
