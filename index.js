@@ -57,8 +57,7 @@ api.get('/info-gempa', (req, res) => {
     endpoint.infoGempa()
         .then((result) => {
             res.send(result)
-        })
-        .catch((err) => res.status(err.status_code).json(err))
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/cuaca', (req, res) => {
@@ -72,15 +71,28 @@ api.get('/kabupaten-kota', (req, res) => {
     endpoint.kabupatenKota(req.query)
         .then((result) => {
             res.send(result)
-        })
-        .catch((err) => res.status(err.status_code).json(err))
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
+api.get('/jadwal-sholat', (req, res) => {
+    endpoint.jadwalSholat(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
+api.get('/covid-indonesia', (req, res) => {
+    endpoint.covidIndonesia(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 // base url
 app.enable('trust proxy')
 app.use('/api', api)
 app.get('/', (req, res) => {
-    res.send('Whatsapp bot api by Zukron Alviandy R')
+    res.send('API Server by Zukron Alviandy R')
 })
 
 // start server
