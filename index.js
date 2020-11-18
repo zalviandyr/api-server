@@ -36,6 +36,13 @@ api.get('/fb-video', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/ig-profile', (req, res) => {
+    endpoint.igProfile(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 api.get('/yt-video/download', (req, res) => {
     const videoID = req.query.id
     const title = req.query.title
