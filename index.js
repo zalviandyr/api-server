@@ -51,14 +51,14 @@ api.get('/info-gempa', (req, res) => {
         .then((result) => {
             res.send(result)
         })
-        .catch((err) => { console.log(err) })
+        .catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/cuaca', (req, res) => {
     endpoint.cuaca(req.query)
         .then((result) => {
             res.send(result)
-        }).catch((err) => { console.log(err) })
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/kabupaten-kota', (req, res) => {
@@ -66,7 +66,7 @@ api.get('/kabupaten-kota', (req, res) => {
         .then((result) => {
             res.send(result)
         })
-        .catch((err) => { console.log(err) })
+        .catch((err) => res.status(err.status_code).json(err))
 })
 
 // base url
