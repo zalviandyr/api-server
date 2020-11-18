@@ -22,6 +22,13 @@ api.get('/yt-audio', (req, res) => {
         }).catch((err) => { console.log(err) })
 })
 
+api.get('/yt-search', (req, res) => {
+    endpoint.ytSearch(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 api.get('/yt-video/download', (req, res) => {
     const videoID = req.query.id
     const title = req.query.title

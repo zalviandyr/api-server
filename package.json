@@ -22,6 +22,7 @@
     "path": "^0.12.7",
     "transliteration": "^2.2.0",
     "url": "^0.11.0",
+    "youtube-search": "^1.1.4",
     "ytdl-core": "^4.0.4"
   },
   "devDependencies": {
