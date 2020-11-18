@@ -15,9 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.0",
+    "camaro": "^6.0.4",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "mysql": "^2.18.1",
     "path": "^0.12.7",
+    "transliteration": "^2.2.0",
     "url": "^0.11.0",
     "ytdl-core": "^4.0.4"
   },

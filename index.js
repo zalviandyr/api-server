@@ -1,10 +1,8 @@
-const fs = require('fs')
 const express = require('express')
 const ytdl = require('ytdl-core')
 
 // my library
 const endpoint = require('./lib/endpoint')
-const { formatBytes } = require('./lib/helpers')
 
 const app = express()
 const api = express.Router()
@@ -15,7 +13,7 @@ api.get('/yt-video', (req, res) => {
         .then((result) => {
             res.send(result)
         }).catch((err) => {
-            res.send(err.message)
+            console.log(err)
         })
 })
 
@@ -24,7 +22,7 @@ api.get('/yt-audio', (req, res) => {
         .then((result) => {
             res.send(result)
         }).catch((err) => {
-            res.send(err.message)
+            console.log(err)
         })
 })
 
@@ -52,9 +50,24 @@ api.get('/yt-audio/download', (req, res) => {
         .pipe(res)
 })
 
-api.get('/temp', (req, res) => {
-    console.log(req.protocol)
-    res.send(formatBytes(50000000).toString())
+api.get('/info-gempa', (req, res) => {
+    endpoint.infoGempa()
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+api.get('/kabupaten-kota', (req, res) => {
+    endpoint.kabupatenKota(req.query)
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
 })
 
 // base url
@@ -66,7 +79,5 @@ app.get('/', (req, res) => {
 
 // start server
 app.listen(port, () => {
-    // TODO delete this line
-    fs.mkdirSync('./storage', { recursive: true })
     console.log(`server started at port: ${port}`)
 })
