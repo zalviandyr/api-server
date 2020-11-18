@@ -29,6 +29,13 @@ api.get('/yt-search', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/fb-video', (req, res) => {
+    endpoint.fbVideo(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 api.get('/yt-video/download', (req, res) => {
     const videoID = req.query.id
     const title = req.query.title
@@ -83,6 +90,13 @@ api.get('/jadwal-sholat', (req, res) => {
 
 api.get('/covid-indonesia', (req, res) => {
     endpoint.covidIndonesia(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
+api.get('/quote-maker', (req, res) => {
+    endpoint.quoteMaker(req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => res.status(err.status_code).json(err))

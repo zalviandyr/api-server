@@ -17,6 +17,7 @@
     "axios": "^0.21.0",
     "camaro": "^6.0.4",
     "express": "^4.17.1",
+    "fbvideos": "^1.0.2",
     "fs": "0.0.1-security",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
