@@ -12,18 +12,14 @@ api.get('/yt-video', (req, res) => {
     endpoint.ytVideo(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
-        }).catch((err) => {
-            console.log(err)
-        })
+        }).catch((err) => { console.log(err) })
 })
 
 api.get('/yt-audio', (req, res) => {
     endpoint.ytAudio(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
-        }).catch((err) => {
-            console.log(err)
-        })
+        }).catch((err) => { console.log(err) })
 })
 
 api.get('/yt-video/download', (req, res) => {
@@ -55,9 +51,14 @@ api.get('/info-gempa', (req, res) => {
         .then((result) => {
             res.send(result)
         })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch((err) => { console.log(err) })
+})
+
+api.get('/cuaca', (req, res) => {
+    endpoint.cuaca(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => { console.log(err) })
 })
 
 api.get('/kabupaten-kota', (req, res) => {
@@ -65,9 +66,7 @@ api.get('/kabupaten-kota', (req, res) => {
         .then((result) => {
             res.send(result)
         })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch((err) => { console.log(err) })
 })
 
 // base url
