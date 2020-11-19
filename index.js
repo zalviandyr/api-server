@@ -116,6 +116,13 @@ api.get('/anime-pic', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/meme', (req, res) => {
+    endpoint.meme()
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 api.get('/speech', (req, res) => {
     endpoint.speech(req.query)
         .then((result) => {
