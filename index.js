@@ -138,6 +138,13 @@ api.get('/translate', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/quote', (req, res) => {
+    endpoint.quote(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 app.enable('trust proxy')
 app.use('/api', api)
