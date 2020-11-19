@@ -109,6 +109,14 @@ api.get('/quote-maker', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/lewd', (req, res) => {
+    endpoint.lewd(req.query)
+        .then((result) => {
+            res.send(result)
+            // }).catch((err) => res.status(err.status_code).json(err))
+        }).catch((err) => console.log(err))
+})
+
 // base url
 app.enable('trust proxy')
 app.use('/api', api)

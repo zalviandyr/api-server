@@ -14,6 +14,7 @@
   "author": "Zukron Alviandy",
   "license": "ISC",
   "dependencies": {
+    "akaneko": "^4.3.2",
     "axios": "^0.21.0",
     "camaro": "^6.0.4",
     "express": "^4.17.1",
@@ -22,6 +23,7 @@
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "transliteration": "^2.2.0",
+    "trev": "^2.0.8",
     "url": "^0.11.0",
     "youtube-search": "^1.1.4",
     "ytdl-core": "^4.0.4"
