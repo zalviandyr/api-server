@@ -113,8 +113,15 @@ api.get('/lewd', (req, res) => {
     endpoint.lewd(req.query)
         .then((result) => {
             res.send(result)
-            // }).catch((err) => res.status(err.status_code).json(err))
-        }).catch((err) => console.log(err))
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
+api.get('/speech', (req, res) => {
+    endpoint.speech(req.query)
+        .then((result) => {
+            res.header('Content-Disposition', 'attachment; filename=audio.wav')
+            result.pipe(res)
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 // base url
