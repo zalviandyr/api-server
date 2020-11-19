@@ -131,6 +131,13 @@ api.get('/speech', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/translate', (req, res) => {
+    endpoint.translate(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 app.enable('trust proxy')
 app.use('/api', api)
