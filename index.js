@@ -109,8 +109,8 @@ api.get('/quote-maker', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
-api.get('/lewd', (req, res) => {
-    endpoint.lewd(req.query)
+api.get('/anime-pic', (req, res) => {
+    endpoint.animePic(req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => res.status(err.status_code).json(err))
