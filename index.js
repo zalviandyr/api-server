@@ -146,13 +146,13 @@ api.get('/quote', (req, res) => {
 })
 
 // base url
-app.enable('trust proxy')
-app.use('/api', api)
-app.get('/', (req, res) => {
+api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
 })
 
-// start server
+// start server and config
+app.enable('trust proxy')
+app.use('/api', api)
 app.listen(port, 'localhost', () => {
     console.log(`server started at port: ${port}`)
 })
