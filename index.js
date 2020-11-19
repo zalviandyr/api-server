@@ -145,6 +145,13 @@ api.get('/quote', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/bosan', (req, res) => {
+    endpoint.bosan(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
