@@ -126,7 +126,7 @@ api.get('/meme', (req, res) => {
 api.get('/speech', (req, res) => {
     endpoint.speech(req.query)
         .then((result) => {
-            res.header('Content-Disposition', 'attachment; filename=audio.ogg')
+            res.header('Content-Disposition', 'attachment; filename=audio.mp3')
             result.pipe(res)
         }).catch((err) => res.status(err.status_code).json(err))
 })
