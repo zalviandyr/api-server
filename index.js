@@ -1,8 +1,11 @@
 const express = require('express')
 const ytdl = require('ytdl-core')
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
+const ffmpeg = require('fluent-ffmpeg')
 
 // my library
 const endpoint = require('./lib/endpoint')
+const { errorResponse, videoToMp3 } = require('./lib/helpers/utilities')
 
 const app = express()
 const api = express.Router()
@@ -50,6 +53,8 @@ api.get('/yt-video/download', (req, res) => {
     const fileName = title + '.' + ext
     res.header('Content-Disposition', `attachment; filename=${fileName}`)
 
+    ffmpeg.setFfmpegPath(ffmpegPath)
+
     const url = `https://www.youtube.com/watch?v=${videoID}`
     ytdl(url, { filter: (_format) => _format.container === 'mp4' })
         .pipe(res)
@@ -58,13 +63,18 @@ api.get('/yt-video/download', (req, res) => {
 api.get('/yt-audio/download', (req, res) => {
     const videoID = req.query.id
     const title = req.query.title
-    const ext = req.query.ext
+    const ext = 'mp3'
     const fileName = title + '.' + ext
     res.header('Content-Disposition', `attachment; filename=${fileName}`)
 
     const url = `https://www.youtube.com/watch?v=${videoID}`
-    ytdl(url, { quality: 'highestaudio', filter: 'audioonly' })
-        .pipe(res)
+    const streamYt = ytdl(url, { quality: 'highestaudio', filter: 'audioonly' })
+    videoToMp3(streamYt)
+        .then((result) => {
+            result.pipe(res)
+        }).catch((err) => {
+            res.send(errorResponse(500, err.message))
+        })
 })
 
 api.get('/info-gempa', (req, res) => {
