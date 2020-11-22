@@ -177,6 +177,13 @@ api.get('/arti-nama', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/pasangan', (req, res) => {
+    endpoint.pasangan(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
