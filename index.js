@@ -56,8 +56,8 @@ api.get('/yt-video/download', (req, res) => {
     ffmpeg.setFfmpegPath(ffmpegPath)
 
     const url = `https://www.youtube.com/watch?v=${videoID}`
-    ytdl(url, { filter: (_format) => _format.container === 'mp4' })
-        .pipe(res)
+    ytdl(url, { filter: (_format) => _format.container === 'mp4', highWaterMark: 2 ** 16 })
+        .pipe(res, { highWaterMark: 2 ** 16 })
 })
 
 api.get('/yt-audio/download', (req, res) => {
