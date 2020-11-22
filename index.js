@@ -70,16 +70,18 @@ api.get('/yt-audio/download', (req, res) => {
     res.header('Content-Disposition', `attachment; filename=${fileName}`)
 
     const url = `https://www.youtube.com/watch?v=${videoID}`
-    const streamYt = ytdl(url, { quality: 'highestaudio', filter: 'audioonly' })
-    const writeFile = streamYt.pipe(fs.createWriteStream(filePath.garbage + '/' + fileName))
-    writeFile.on('finish', () => {
-        videoToMp3(fs.createReadStream(filePath.garbage + '/' + fileName))
-            .then((result) => {
-                result.pipe(res)
-            }).catch((err) => {
-                res.send(errorResponse(500, err.message))
-            })
-    })
+    const streamYt = ytdl(url, { quality: 'highestaudio', filter: 'audioonly', highWaterMark: 2 ** 16 })
+    // const writeFile = streamYt.pipe(fs.createWriteStream(filePath.garbage + '/' + fileName, { highWaterMark: 2 ** 16 }))
+
+    // writeFile.on('finish', () => {
+    // videoToMp3(fs.createReadStream(filePath.garbage + '/' + fileName, { highWaterMark: 2 ** 16 }))
+    videoToMp3(streamYt)
+        .then((result) => {
+            result.pipe(res, { highWaterMark: 2 ** 16 })
+        }).catch((err) => {
+            res.send(errorResponse(500, err.message))
+        })
+    // })
 })
 
 api.get('/info-gempa', (req, res) => {
@@ -184,8 +186,9 @@ app.enable('trust proxy')
 app.use('/api', api)
 app.listen(port, 'localhost', () => {
     // recreate garbage path, to avoid unnecessary big garbage data
-    fs.rmdirSync(filePath.garbage, { recursive: true })
-    fs.mkdirSync(filePath.garbage, { recursive: true })
+    // TODO uncomment this
+    // fs.rmdirSync(filePath.garbage, { recursive: true })
+    // fs.mkdirSync(filePath.garbage, { recursive: true })
 
     console.log(`server started at port: ${port}`)
 })
