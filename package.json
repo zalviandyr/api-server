@@ -26,6 +26,7 @@
     "mysql": "^2.18.1",
     "node-lame": "^1.2.2",
     "path": "^0.12.7",
+    "puppeteer": "^5.5.0",
     "stream": "0.0.2",
     "stream-to-array": "^2.3.0",
     "transliteration": "^2.2.0",
