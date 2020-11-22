@@ -1,4 +1,10 @@
+# VS CODE
+.vscode
+
+# NODE
 node_modules
 package-lock.json
+
+# Who care with these file/folder
 testing.js
-.vscode
+storage/garbage
