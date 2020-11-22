@@ -2,11 +2,9 @@ const express = require('express')
 const ytdl = require('ytdl-core')
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
-const fs = require('fs')
 
 // my library
 const endpoint = require('./lib/endpoint')
-const { filePath } = require('./lib/helpers/values')
 const { errorResponse, videoToMp3 } = require('./lib/helpers/utilities')
 
 const app = express()
@@ -71,17 +69,13 @@ api.get('/yt-audio/download', (req, res) => {
 
     const url = `https://www.youtube.com/watch?v=${videoID}`
     const streamYt = ytdl(url, { quality: 'highestaudio', filter: 'audioonly', highWaterMark: 2 ** 16 })
-    // const writeFile = streamYt.pipe(fs.createWriteStream(filePath.garbage + '/' + fileName, { highWaterMark: 2 ** 16 }))
 
-    // writeFile.on('finish', () => {
-    // videoToMp3(fs.createReadStream(filePath.garbage + '/' + fileName, { highWaterMark: 2 ** 16 }))
     videoToMp3(streamYt)
         .then((result) => {
             result.pipe(res, { highWaterMark: 2 ** 16 })
         }).catch((err) => {
             res.send(errorResponse(500, err.message))
         })
-    // })
 })
 
 api.get('/info-gempa', (req, res) => {
@@ -185,10 +179,5 @@ api.get('/', (req, res) => {
 app.enable('trust proxy')
 app.use('/api', api)
 app.listen(port, 'localhost', () => {
-    // recreate garbage path, to avoid unnecessary big garbage data
-    // TODO uncomment this
-    // fs.rmdirSync(filePath.garbage, { recursive: true })
-    // fs.mkdirSync(filePath.garbage, { recursive: true })
-
     console.log(`server started at port: ${port}`)
 })
