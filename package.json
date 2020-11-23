@@ -23,6 +23,7 @@
     "fbvideos": "^1.0.2",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-lame": "^1.2.2",
     "path": "^0.12.7",
