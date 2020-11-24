@@ -220,9 +220,9 @@ api.get('/', (req, res) => {
 })
 
 // post => application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '10MB' }))
 // post => application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false, limit: '10MB' }))
 // post => multipart/form-data
 app.use(multer().array())
 // start server and config
