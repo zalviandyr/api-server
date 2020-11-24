@@ -2,6 +2,8 @@ const express = require('express')
 const ytdl = require('ytdl-core')
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
+const bodyParser = require('body-parser')
+const multer = require('multer')
 
 // my library
 const endpoint = require('./lib/endpoint')
@@ -198,11 +200,29 @@ api.get('/pekerjaan', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/what-anime', (req, res) => {
+    endpoint.whatAnime(req.query, req.body, 'get')
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
+api.post('/what-anime', (req, res) => {
+    endpoint.whatAnime(req.query, req.body, 'post')
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
 })
 
+// post => x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// post => multipart/form-data
+app.use(multer().array())
 // start server and config
 app.enable('trust proxy')
 app.use('/api', api)
