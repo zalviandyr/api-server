@@ -219,7 +219,9 @@ api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
 })
 
-// post => x-www-form-urlencoded
+// post => application/json
+app.use(bodyParser.json())
+// post => application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // post => multipart/form-data
 app.use(multer().array())
