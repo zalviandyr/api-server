@@ -16,7 +16,7 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@k3rn31p4nic/google-translate-api": "^1.1.1",
-    "akaneko": "^4.3.2",
+    "akaneko": "^4.4.2",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "camaro": "^6.0.4",
