@@ -214,6 +214,13 @@ api.post('/what-anime', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/quran', (req, res) => {
+    endpoint.quran()
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
