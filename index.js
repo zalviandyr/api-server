@@ -1,13 +1,9 @@
 const express = require('express')
-const ytdl = require('ytdl-core')
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
-const ffmpeg = require('fluent-ffmpeg')
 const bodyParser = require('body-parser')
 const multer = require('multer')
 
 // my library
 const endpoint = require('./lib/endpoint')
-const { errorResponse, videoToMp3 } = require('./lib/helpers/utilities')
 
 const app = express()
 const api = express.Router()
@@ -17,14 +13,14 @@ api.get('/yt-video', (req, res) => {
     endpoint.ytVideo(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
-        }).catch((err) => { console.log(err) })
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/yt-audio', (req, res) => {
     endpoint.ytAudio(req.protocol, req.headers.host, req.query)
         .then((result) => {
             res.send(result)
-        }).catch((err) => { console.log(err) })
+        }).catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/yt-search', (req, res) => {
@@ -46,38 +42,6 @@ api.get('/ig-profile', (req, res) => {
         .then((result) => {
             res.send(result)
         }).catch((err) => res.status(err.status_code).json(err))
-})
-
-api.get('/yt-video/download', (req, res) => {
-    const videoID = req.query.id
-    const title = req.query.title
-    const ext = req.query.ext
-    const fileName = title + '.' + ext
-    res.header('Content-Disposition', `attachment; filename=${fileName}`)
-
-    ffmpeg.setFfmpegPath(ffmpegPath)
-
-    const url = `https://www.youtube.com/watch?v=${videoID}`
-    ytdl(url, { filter: (_format) => _format.container === 'mp4', highWaterMark: 2 ** 16 })
-        .pipe(res, { highWaterMark: 2 ** 16 })
-})
-
-api.get('/yt-audio/download', (req, res) => {
-    const videoID = req.query.id
-    const title = req.query.title
-    const ext = 'mp3'
-    const fileName = title + '.' + ext
-    res.header('Content-Disposition', `attachment; filename=${fileName}`)
-
-    const url = `https://www.youtube.com/watch?v=${videoID}`
-    const streamYt = ytdl(url, { quality: 'highestaudio', filter: 'audioonly', highWaterMark: 2 ** 16 })
-
-    videoToMp3(streamYt)
-        .then((result) => {
-            result.pipe(res, { highWaterMark: 2 ** 16 })
-        }).catch((err) => {
-            res.send(errorResponse(500, err.message))
-        })
 })
 
 api.get('/info-gempa', (req, res) => {
