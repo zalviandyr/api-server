@@ -228,6 +228,13 @@ api.get('/surat', (req, res) => {
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
+api.get('/alkitab', (req, res) => {
+    endpoint.alkitab(req.query)
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => res.status(err.status_code).json(err))
+})
+
 // base url
 api.get('/', (req, res) => {
     res.send('API Server by Zukron Alviandy R')
