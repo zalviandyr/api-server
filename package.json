@@ -32,11 +32,9 @@
     "puppeteer": "^5.5.0",
     "stream": "0.0.2",
     "stream-to-array": "^2.3.0",
-    "transliteration": "^2.2.0",
     "trev": "^2.0.8",
     "url": "^0.11.0",
-    "youtube-search": "^1.1.4",
-    "ytdl-core": "^4.0.4"
+    "youtube-search": "^1.1.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
