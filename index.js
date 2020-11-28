@@ -10,14 +10,14 @@ const api = express.Router()
 const port = process.env.PORT || 4000
 
 api.get('/yt-video', (req, res) => {
-    endpoint.ytVideo(req.protocol, req.headers.host, req.query)
+    endpoint.ytVideo(req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => res.status(err.status_code).json(err))
 })
 
 api.get('/yt-audio', (req, res) => {
-    endpoint.ytAudio(req.protocol, req.headers.host, req.query)
+    endpoint.ytAudio(req.query)
         .then((result) => {
             res.send(result)
         }).catch((err) => res.status(err.status_code).json(err))
