@@ -35,32 +35,34 @@ class YtSearchController {
             const result = await page.evaluate((element) => {
                 const searchResult = element.querySelectorAll('ytd-video-renderer')
 
+                let elementVideo
                 // cek jika video tidak live, video live tidak mempunyai durasi
                 for (let i = 0; i < searchResult.length; i++) {
                     const tempDuration = searchResult[i].querySelector('div > ytd-thumbnail > a > div > ytd-thumbnail-overlay-time-status-renderer')
                     if (tempDuration) {
-                        const thumb = searchResult[i].querySelector('div > ytd-thumbnail > a > yt-img-shadow > img').getAttribute('src')
-                        const duration = searchResult[i].querySelector('div > ytd-thumbnail > a > div > ytd-thumbnail-overlay-time-status-renderer').innerText
-                        const title = searchResult[i].querySelector('div > div > div > div > h3').innerText
-                        const link = (() => {
-                            const temp = searchResult[i].querySelector('div > div > div > div > h3 > a').getAttribute('href')
-                            return 'https://www.youtube.com' + temp
-                        })()
-                        const views = searchResult[i].querySelector('div > div > div#meta > ytd-video-meta-block > div#metadata > div#metadata-line > span:nth-child(1)').textContent
-                        const upload = searchResult[i].querySelector('div > div > div#meta > ytd-video-meta-block > div#metadata > div#metadata-line > span:nth-child(2)').textContent
-                        const channelLink = (() => {
-                            const temp = searchResult[i].querySelector('div > div > div#channel-info > a').getAttribute('href')
-                            return 'https://www.youtube.com' + temp
-                        })()
-                        const channelTitle = searchResult[i].querySelector('div > div > div#channel-info > ytd-channel-name').innerText
-                        const description = searchResult[i].querySelector('div > div > yt-formatted-string#description-text').innerText
-
-                        return {
-                            thumb, title, duration, link, views, upload, channel_link: channelLink, channel_title: channelTitle, description,
-                        }
+                        elementVideo = searchResult[i]
                     }
                 }
-                return null
+
+                const thumb = elementVideo.querySelector('div > ytd-thumbnail > a > yt-img-shadow > img').getAttribute('src')
+                const duration = elementVideo.querySelector('div > ytd-thumbnail > a > div > ytd-thumbnail-overlay-time-status-renderer').innerText
+                const title = elementVideo.querySelector('div > div > div > div > h3').innerText
+                const link = (() => {
+                    const temp = elementVideo.querySelector('div > div > div > div > h3 > a').getAttribute('href')
+                    return 'https://www.youtube.com' + temp
+                })()
+                const views = elementVideo.querySelector('div > div > div#meta > ytd-video-meta-block > div#metadata > div#metadata-line > span:nth-child(1)').textContent
+                const upload = elementVideo.querySelector('div > div > div#meta > ytd-video-meta-block > div#metadata > div#metadata-line > span:nth-child(2)').textContent
+                const channelLink = (() => {
+                    const temp = elementVideo.querySelector('div > div > div#channel-info > a').getAttribute('href')
+                    return 'https://www.youtube.com' + temp
+                })()
+                const channelTitle = elementVideo.querySelector('div > div > div#channel-info > ytd-channel-name').innerText
+                const description = elementVideo.querySelector('div > div > yt-formatted-string#description-text').innerText
+
+                return {
+                    thumb, title, duration, link, views, upload, channel_link: channelLink, channel_title: channelTitle, description,
+                }
             }, elementsSearchResult)
 
             return new CustomMessage(response).success(result, 200, async () => { await browser.close() })
