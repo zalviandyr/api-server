@@ -19,5 +19,19 @@
         "prefer-destructuring": "off",
         "prefer-template": "off",
         "no-plusplus": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    ["cores", "./core"],
+                    ["configs", "./configs"],
+                    ["controllers", "./app/controllers"],
+                    ["routes", "./app/routes"],
+                    ["helpers", "./app/helpers"]
+                ],
+                "extensions": [".ts", ".js", ".jsx", ".json"]
+            }
+        }
     }
 }
