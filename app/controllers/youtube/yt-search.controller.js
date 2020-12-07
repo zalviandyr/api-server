@@ -41,6 +41,7 @@ class YtSearchController {
                     const tempDuration = searchResult[i].querySelector('div > ytd-thumbnail > a > div > ytd-thumbnail-overlay-time-status-renderer')
                     if (tempDuration) {
                         elementVideo = searchResult[i]
+                        break
                     }
                 }
 
