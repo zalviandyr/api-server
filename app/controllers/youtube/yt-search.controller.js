@@ -27,7 +27,7 @@ class YtSearchController {
             // user agent
             await page.setUserAgent(puppeteerValues.userAgent)
 
-            await page.goto(url, { waitUntil: 'networkidle0' })
+            await page.goto(url, { waitUntil: 'networkidle2' })
 
             const xpathSearchResult = '//ytd-item-section-renderer[@class="style-scope ytd-section-list-renderer"]/div[@id="contents"]'
             await page.waitForXPath(xpathSearchResult)
