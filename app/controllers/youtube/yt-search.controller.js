@@ -27,10 +27,12 @@ class YtSearchController {
             // user agent
             await page.setUserAgent(puppeteerValues.userAgent)
 
-            await page.goto(url, { waitUntil: 'networkidle2' })
+            await page.goto(url, { waitUntil: 'networkidle0' })
 
             const xpathSearchResult = '//ytd-item-section-renderer[@class="style-scope ytd-section-list-renderer"]/div[@id="contents"]'
             await page.waitForXPath(xpathSearchResult)
+            // tunggu sampai badge durasi ada, terkadang badge lambat muncul
+            await page.waitForXPath('//*[@id="overlays"]/ytd-thumbnail-overlay-time-status-renderer')
             const [elementsSearchResult] = await page.$x(xpathSearchResult)
             const result = await page.evaluate((element) => {
                 const searchResult = element.querySelectorAll('ytd-video-renderer')
