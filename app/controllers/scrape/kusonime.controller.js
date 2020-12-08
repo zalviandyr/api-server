@@ -113,7 +113,7 @@ class KusonimeController {
                     // jika ada link download atau tidak
                     const checkDownloadList = downloadUrl[0].querySelectorAll('a')
                     if (checkDownloadList.length === 0) {
-                        return null
+                        return []
                     }
 
                     // resolution
