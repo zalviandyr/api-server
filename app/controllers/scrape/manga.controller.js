@@ -50,25 +50,27 @@ class MangaController {
 
             await page.goto(resultFirstUrl, { waitUntil: 'networkidle0' })
 
+            const xpathThumb = '//img[@class=" lazyloaded"]'
+            await page.waitForXPath(xpathThumb)
+            const [elementsThumb] = await page.$x(xpathThumb)
+            const resultThumb = await page.evaluate((element) => element.getAttribute('src'), elementsThumb)
+
+            const xpathTitle = '//td[@class="tr-caption"]'
+            await page.waitForXPath(xpathTitle)
+            const [elementsTitle] = await page.$x(xpathTitle)
+            const resultTitle = await page.evaluate((element) => element.innerText, elementsTitle)
+
             const xpathIntro = '//div[@class="entry-content clearfix"]'
             await page.waitForXPath(xpathIntro)
             const [elementsIntro] = await page.$x(xpathIntro)
-            const resultIntro = await page.evaluate((element) => {
+            const resultIntro = await page.evaluate((element, thumb, title) => {
                 const note = document.querySelector('#main > div:nth-child(1)').innerText
-                const thumb = (() => {
-                    const thumb1 = element.querySelector('div:nth-child(2) > table > tbody > tr:nth-child(1) > td > a')
-                    const thumb2 = element.querySelector('div:nth-child(2) > table > tbody > tr:nth-child(1) > td > img')
-                    if (thumb1) return thumb1.getAttribute('href')
-                    if (thumb2) return thumb2.getAttribute('src')
-                    return ''
-                })()
-                const title = element.querySelector('div:nth-child(2) > table > tbody > tr:nth-child(2) > td').innerText
                 const description = element.querySelector('div:nth-child(1)').innerText
 
                 return {
                     note, thumb, title, description,
                 }
-            }, elementsIntro)
+            }, elementsIntro, resultThumb, resultTitle)
 
             const xpathDescription = '//div[@class="entry-content clearfix"]/table[1]'
             await page.waitForXPath(xpathDescription)
@@ -88,50 +90,85 @@ class MangaController {
             }, elementsDescription)
 
             const xpathDownloads = '//div[@class="entry-content clearfix"]/table[2]'
-            await page.waitForXPath(xpathDownloads)
-            const [elementsDownloads] = await page.$x(xpathDownloads)
-            const resultDownloads = await page.evaluate((element) => {
-                const tempDownloads = []
-                const allTr = element.querySelectorAll('tbody > tr')
-                let index = 0
-                for (let i = 0; i < allTr.length; i++) {
-                    const separateDownload = allTr[i].querySelector('td').hasAttribute('bgcolor')
-                    if (separateDownload) {
-                        index = i
-                        break
+            const xpathDownloads2 = '//div[@class="entry-content clearfix"]'
+            const [checkTableExist] = await page.$x(xpathDownloads)
+            let resultDownloads
+            if (checkTableExist) {
+                await page.waitForXPath(xpathDownloads)
+                const [elementsDownloads] = await page.$x(xpathDownloads)
+                resultDownloads = await page.evaluate((element) => {
+                    const tempDownloads = []
+                    const allTr = element.querySelectorAll('tbody > tr')
+                    let index = 0
+                    for (let i = 0; i < allTr.length; i++) {
+                        const separateDownload = allTr[i].querySelector('td').hasAttribute('bgcolor')
+                        if (separateDownload) {
+                            index = i
+                            break
+                        }
                     }
-                }
 
-                // artinya ada tempat download terpisah, seperti one piece
-                if (index !== 0) {
-                    for (let i = (index + 1); i < allTr.length; i++) {
-                        const date = allTr[i].querySelector('td > b').innerText
-                        const title = allTr[i].querySelector('td > a').innerText
-                        const link = allTr[i].querySelector('td > a').getAttribute('href')
+                    // artinya ada tempat download terpisah, seperti one piece
+                    if (index !== 0) {
+                        for (let i = (index + 1); i < allTr.length; i++) {
+                            const date = allTr[i].querySelector('td > b').innerText
+                            const title = allTr[i].querySelector('td > a').innerText
+                            const link = allTr[i].querySelector('td > a').getAttribute('href')
+                            tempDownloads.push({ date, title, link })
+                        }
+                    }
+
+                    if (index === 0) {
+                        const getLink = (node) => {
+                            const countA = node.querySelectorAll('a')
+                            if (countA.length === 1) return countA[0].getAttribute('href')
+                            if (countA.length === 2) return countA[1].getAttribute('href')
+                            return ''
+                        }
+
+                        for (let i = (index + 1); i < allTr.length; i++) {
+                            const countTd = allTr[i].querySelectorAll('td')
+                            if (countTd.length === 2) {
+                                const date = ''
+                                const title = allTr[i].querySelector('td:nth-child(1)').innerText
+                                const link = getLink(allTr[i].querySelector('td:nth-child(2)'))
+                                tempDownloads.push({ date, title, link })
+                            }
+
+                            if (countTd.length === 3) {
+                                const date = allTr[i].querySelector('td:nth-child(1)').innerText
+                                const title = allTr[i].querySelector('td:nth-child(2)').innerText
+                                const link = getLink(allTr[i].querySelector('td:nth-child(3)'))
+                                tempDownloads.push({ date, title, link })
+                            }
+                        }
+                    }
+                    return { downloads: tempDownloads }
+                }, elementsDownloads)
+            } else {
+                await page.waitForXPath(xpathDownloads2)
+                const [elementsDownloads2] = await page.$x(xpathDownloads2)
+                resultDownloads = await page.evaluate((element) => {
+                    const getLink = (node) => {
+                        const countA = node.querySelectorAll('a')
+                        if (countA.length === 1) return countA[0].getAttribute('href')
+                        if (countA.length === 2) return countA[1].getAttribute('href')
+                        return ''
+                    }
+
+                    const downloads = element.querySelectorAll('div.aligncenter')
+                    const tempDownloads = []
+
+                    for (let i = 0; i < downloads.length; i++) {
+                        const date = ''
+                        const title = downloads[i].querySelector('strong').innerText
+                        const link = getLink(downloads[i])
                         tempDownloads.push({ date, title, link })
                     }
-                }
 
-                if (index === 0) {
-                    for (let i = (index + 1); i < allTr.length; i++) {
-                        const countTd = allTr[i].querySelectorAll('td')
-                        if (countTd.length === 2) {
-                            const date = ''
-                            const title = allTr[i].querySelector('td:nth-child(1)').innerText
-                            const link = allTr[i].querySelector('td:nth-child(2) > a:nth-child(2)').getAttribute('href')
-                            tempDownloads.push({ date, title, link })
-                        }
-
-                        if (countTd.length === 3) {
-                            const date = allTr[i].querySelector('td:nth-child(1)').innerText
-                            const title = allTr[i].querySelector('td:nth-child(2)').innerText
-                            const link = allTr[i].querySelector('td:nth-child(3) > a:nth-child(2)').getAttribute('href')
-                            tempDownloads.push({ date, title, link })
-                        }
-                    }
-                }
-                return { downloads: tempDownloads }
-            }, elementsDownloads)
+                    return { downloads: tempDownloads }
+                }, elementsDownloads2)
+            }
 
             for (let i = 0; i < resultDownloads.downloads.length; i++) {
                 const queryData = urlParse(resultDownloads.downloads[i].link, { parseQueryString: true }).query
