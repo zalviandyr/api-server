@@ -44,6 +44,10 @@ const authentication = {
         username: ***REMOVED***,
         password: ***REMOVED***,
     },
+    saweria: {
+        email: ***REMOVED***,
+        password: ***REMOVED***,
+    },
 }
 exports.authentication = authentication
 
