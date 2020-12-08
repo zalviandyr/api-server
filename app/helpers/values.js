@@ -44,6 +44,10 @@ const authentication = {
         username: 'apikey',
         password: 'eFqDzlg1HOxCUJHvJQioQnJswV8IcoF_KCl6l4pLtBWs',
     },
+    saweria: {
+        email: 'zukronalviandy@gmail.com',
+        password: 'f9tDgYZxBDNwAa.',
+    },
 }
 exports.authentication = authentication
 
