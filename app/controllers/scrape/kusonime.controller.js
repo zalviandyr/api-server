@@ -110,6 +110,12 @@ class KusonimeController {
                     const downloadListResult = []
                     const downloadUrl = downloadBody[0].querySelectorAll('div.smokeurl')
 
+                    // jika ada link download atau tidak
+                    const checkDownloadList = downloadUrl[0].querySelectorAll('a')
+                    if (checkDownloadList.length === 0) {
+                        return null
+                    }
+
                     // resolution
                     for (let i = 0; i < downloadUrl.length; i++) {
                         // get url
@@ -154,16 +160,19 @@ class KusonimeController {
                 return dataScrape
             }, elementMainPage)
 
-            // get original url
-            for (let i = 0; i < result.download.length; i++) {
-                const downloadList = result.download[i].download_list
-                for (let j = 0; j < downloadList.length; j++) {
-                    const queryData = urlParse(downloadList[j].download_link, { parseQueryString: true }).query
+            // jika tidak ada download link
+            if (result.download !== null) {
+                // get original url
+                for (let i = 0; i < result.download.length; i++) {
+                    const downloadList = result.download[i].download_list
+                    for (let j = 0; j < downloadList.length; j++) {
+                        const queryData = urlParse(downloadList[j].download_link, { parseQueryString: true }).query
 
-                    // jika query.url ada maka pakai itu
-                    // jika tidak ada maka pakai saja yang belum diparsing
-                    if (queryData.url) {
-                        downloadList[j].download_link = queryData.url
+                        // jika query.url ada maka pakai itu
+                        // jika tidak ada maka pakai saja yang belum diparsing
+                        if (queryData.url) {
+                            downloadList[j].download_link = queryData.url
+                        }
                     }
                 }
             }
