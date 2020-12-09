@@ -1,6 +1,7 @@
-const puppeteer = require('puppeteer')
+const axios = require('axios')
+const querystring = require('querystring')
+const cheerio = require('cheerio')
 const moment = require('moment')
-const { puppeteerValues } = require('helpers/values')
 const { CustomMessage } = require('helpers/CustomMessage')
 
 class PekerjaanController {
@@ -21,7 +22,7 @@ class PekerjaanController {
 
         // check date is valid
         const m = moment(tanggal, 'DD-MM-YYYY')
-        const url = 'https://www.primbon.com/pekerjaan_weton_lahir.htm';
+        const url = 'https://primbon.com/pekerjaan_weton_lahir.php'
 
         if (!m.isValid()) {
             return new CustomMessage(response).error({
@@ -30,52 +31,32 @@ class PekerjaanController {
             }, 400)
         }
 
-        const browser = await puppeteer.launch(puppeteerValues.options)
         try {
-            const page = await browser.newPage()
-            // user agent
-            await page.setUserAgent(puppeteerValues.userAgent)
+            const dataPost = {
+                tgl: m.date(),
+                bln: (m.month() + 1),
+                thn: m.year(),
+                submit: 'Submit!',
+            }
+            const { data } = await axios.post(url, querystring.stringify(dataPost))
+            const selector = cheerio.load(data)
+            const result = selector('div[id="container"]').find('div[id="body"]')
 
-            await page.goto(url, { waitUntil: 'networkidle0' })
-            const xpathResult = '//div[@id="body"]/table/tbody'
-            await page.waitForXPath(xpathResult)
-            const [elements] = await page.$x(xpathResult)
-            await page.evaluate(async (element, date, month, year) => {
-                const inputTanggal = element.querySelector('tr > td:nth-child(2) > input[name=tgl]')
-                inputTanggal.value = '' + date
+            // remove unnecessary data
+            result.find('br').replaceWith('\n')
+            const dataText = result.text()
+            const array = dataText.split('\n').filter((f) => f !== '')
+            const resultResponse = {
+                hari_lahir: array[1].split(':')[1].trim(),
+                deskripsi: array[2],
+            }
 
-                const comboBulan = element.querySelector('tr > td:nth-child(2) > select')
-                const comboBulanOptions = comboBulan.querySelectorAll('option')
-                const comboBulanSelected = [...comboBulanOptions].find((option) => option.value === '' + month)
-                comboBulanSelected.selected = true
-
-                const inputTahun = element.querySelector('tr > td:nth-child(2) > input[name=thn]')
-                inputTahun.value = '' + year
-
-                const submit = element.querySelector('tr:nth-child(2) > td:nth-child(2) > input')
-                submit.click()
-            }, elements, m.date(), (m.month() + 1), m.year())
-            await page.waitForNavigation()
-
-            const xpathResult2 = '//div[@id="body"]'
-            await page.waitForXPath(xpathResult2)
-            const [elements2] = await page.$x(xpathResult2)
-            const resultResponse = await page.evaluate((element) => {
-                const array = element.innerText.split('\n').filter((f) => f !== '')
-                const result = {
-                    hari_lahir: array[1].split(':')[1].trim(),
-                    deskripsi: array[2],
-                }
-
-                return result
-            }, elements2)
-
-            return new CustomMessage(response).success(resultResponse, 200, async () => { await browser.close() })
+            return new CustomMessage(response).success(resultResponse)
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500)
         }
     }
 }

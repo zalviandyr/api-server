@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer')
-const { puppeteerValues } = require('helpers/values')
+const axios = require('axios')
+const cheerio = require('cheerio')
 const { CustomMessage } = require('helpers/CustomMessage')
 
 class PasanganController {
@@ -18,45 +18,40 @@ class PasanganController {
             }, 400)
         }
 
-        nama1 = nama1.replace('/ /g', '+')
-        nama2 = nama2.replace('/ /g', '+')
-        const url = `https://www.primbon.com/kecocokan_nama_pasangan.php?nama1=${nama1}&nama2=${nama2}&proses=+Submit!+`;
-
-        const browser = await puppeteer.launch(puppeteerValues.options)
         try {
-            const page = await browser.newPage()
-            // user agent
-            await page.setUserAgent(puppeteerValues.userAgent)
+            nama1 = nama1.replace('/ /g', '+')
+            nama2 = nama2.replace('/ /g', '+')
+            const url = `https://www.primbon.com/kecocokan_nama_pasangan.php?nama1=${nama1}&nama2=${nama2}&proses=+Submit!+`
 
-            await page.goto(url, { waitUntil: 'networkidle0' })
-            const xpathResult = '//div[@id="body"]'
-            await page.waitForXPath(xpathResult)
-            const [elements] = await page.$x(xpathResult)
-            const resultResponse = await page.evaluate((element) => {
-                const removeEmpty = element.innerText.split('\n').filter((e) => e !== '')
-                const removeUnnecessary = removeEmpty.splice(1).splice(0, 5)
-                const namaAnda = removeUnnecessary[0].split(':')[1].trim()
-                const namaPasangan = removeUnnecessary[1].split(':')[1].trim()
-                const sisiPositifAnda = removeUnnecessary[2].split(':')[1].trim()
-                const sisiNegatifAnda = removeUnnecessary[3].split(':')[1].trim()
-                const deskripsi = removeUnnecessary[4]
+            const { data } = await axios.get(url)
+            const selector = cheerio.load(data)
+            const result = selector('div[id="container"]').find('div[id="body"]')
 
-                const result = {
-                    nama_anda: namaAnda,
-                    nama_pasangan: namaPasangan,
-                    sisi_positif_anda: sisiPositifAnda,
-                    sisi_negatif_anda: sisiNegatifAnda,
-                    deskripsi,
-                }
-                return result
-            }, elements)
+            // remove unnecessary data
+            result.find('br').replaceWith('\n')
+            const dataText = result.text()
+            const removeEmpty = dataText.split('\n').filter((e) => e !== '')
+            const removeUnnecessary = removeEmpty.splice(1).splice(0, 5)
+            const namaAnda = removeUnnecessary[0].split(':')[1].trim()
+            const namaPasangan = removeUnnecessary[1].split(':')[1].trim()
+            const sisiPositifAnda = removeUnnecessary[2].split(':')[1].trim()
+            const sisiNegatifAnda = removeUnnecessary[3].split(':')[1].trim()
+            const deskripsi = removeUnnecessary[4]
 
-            return new CustomMessage(response).success(resultResponse, 200, async () => { await browser.close() })
+            const resultResponse = {
+                nama_anda: namaAnda,
+                nama_pasangan: namaPasangan,
+                sisi_positif_anda: sisiPositifAnda,
+                sisi_negatif_anda: sisiNegatifAnda,
+                deskripsi,
+            }
+
+            return new CustomMessage(response).success(resultResponse)
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500)
         }
     }
 }
