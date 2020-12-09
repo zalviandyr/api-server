@@ -9,6 +9,7 @@ const { MovieController } = require('controllers/scrape/movie.controller')
 const { Movie2Controller } = require('controllers/scrape/movie2.controller')
 const { MangaController } = require('controllers/scrape/manga.controller')
 const { WikipediaController } = require('controllers/scrape/wikipedia.controller')
+const { TiktokController } = require('controllers/scrape/tiktok.controller')
 const { Controller } = require('cores/Controller')
 
 class ScrapeRoute extends Controller {
@@ -25,6 +26,7 @@ class ScrapeRoute extends Controller {
             this.get('/movie2', (req, res) => new Movie2Controller(req, res).controller()),
             this.get('/manga', (req, res) => new MangaController(req, res).controller()),
             this.get('/wiki', (req, res) => new WikipediaController(req, res).controller()),
+            this.get('/tiktok', (req, res) => new TiktokController(req, res).controller()),
         ]
     }
 }
