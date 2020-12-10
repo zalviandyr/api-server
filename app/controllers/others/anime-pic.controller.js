@@ -1,5 +1,6 @@
-const fs = require('fs').promises
 const akaneko = require('akaneko')
+const axios = require('axios')
+const fs = require('fs').promises
 const trev = require('trev')
 const { CustomMessage } = require('helpers/CustomMessage')
 const { filePath } = require('helpers/values')
@@ -23,10 +24,10 @@ class AnimePicController {
 
         const genreList = [
             'neko', 'foxgirl', 'ass', 'bdsm', 'blowjob', 'cum',
-            'doujin', 'feet', 'femdom', 'glasses', 'hentai',
+            'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'loli',
             'netorare', 'maid', 'masturbation', 'orgy', 'panties',
             'pussy', 'school', 'tentacles', 'thighs', 'uglybastard',
-            'uniform', 'yuri', 'wallpaper', 'randomsfw', 'randomnsfw']
+            'uniform', 'yuri', 'wallpaper', 'randomsfw', 'randomnsfw', 'lolinsfw']
 
         try {
             if (genreList.includes(genre)) {
@@ -41,6 +42,12 @@ class AnimePicController {
                         const json = JSON.parse(data)
                         const random = Math.floor(Math.random() * json.length)
                         return json[random]
+                    })()
+                }
+                if (genre === 'loli') {
+                    type = (async () => {
+                        const { data } = await axios.get('https://api.lolis.life/random?nsfw=false')
+                        return data.url
                     })()
                 }
 
@@ -68,6 +75,12 @@ class AnimePicController {
                 if (genre === 'yuri') type = akaneko.nsfw.yuri()
                 if (genre === 'wallpaper') type = akaneko.nsfw.mobileWallpapers()
                 if (genre === 'randomnsfw') type = trev.nsfw.hentai()
+                if (genre === 'lolinsfw') {
+                    type = (async () => {
+                        const { data } = await axios.get('https://api.lolis.life/random?nsfw=true')
+                        return data.url
+                    })()
+                }
 
                 let result
                 const url = await type
