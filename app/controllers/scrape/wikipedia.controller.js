@@ -27,10 +27,10 @@ class WikipediaController {
             const title = selector('h1[id="firstHeading"]')
 
             const paragraph = result.find('div[id="toc"]').prevUntil('table, div')
-            const textClean = paragraph.text().replace(/\[([0-9])\]/g, '')
-            const textArray = textClean.split('\n').reverse().filter((el) => el !== '')
+            const textArray = paragraph.text().split('\n').reverse().filter((el) => el !== '')
+            const textClean = textArray.map((el) => el.replace(/\[([0-9]+)\]/g, ''))
 
-            const resultResponse = { title: title.text(), result: textArray }
+            const resultResponse = { title: title.text(), result: textClean }
             return new CustomMessage(response).success(resultResponse)
         } catch (err) {
             if (err.response.status === 404) {
