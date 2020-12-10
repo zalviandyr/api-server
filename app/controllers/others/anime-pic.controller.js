@@ -24,10 +24,10 @@ class AnimePicController {
 
         const genreList = [
             'neko', 'foxgirl', 'ass', 'bdsm', 'blowjob', 'cum',
-            'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'loli',
+            'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'lolisfw', 'loli',
             'netorare', 'maid', 'masturbation', 'orgy', 'panties',
             'pussy', 'school', 'tentacles', 'thighs', 'uglybastard',
-            'uniform', 'yuri', 'wallpaper', 'randomsfw', 'randomnsfw', 'lolinsfw']
+            'uniform', 'yuri', 'wallpaper', 'randomsfw', 'randomnsfw']
 
         try {
             if (genreList.includes(genre)) {
@@ -44,7 +44,7 @@ class AnimePicController {
                         return json[random]
                     })()
                 }
-                if (genre === 'loli') {
+                if (genre === 'lolisfw') {
                     type = (async () => {
                         const { data } = await axios.get('https://api.lolis.life/random?nsfw=false')
                         return data.url
@@ -75,7 +75,7 @@ class AnimePicController {
                 if (genre === 'yuri') type = akaneko.nsfw.yuri()
                 if (genre === 'wallpaper') type = akaneko.nsfw.mobileWallpapers()
                 if (genre === 'randomnsfw') type = trev.nsfw.hentai()
-                if (genre === 'lolinsfw') {
+                if (genre === 'loli') {
                     type = (async () => {
                         const { data } = await axios.get('https://api.lolis.life/random?nsfw=true')
                         return data.url
