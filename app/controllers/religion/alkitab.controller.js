@@ -31,7 +31,7 @@ class AlkitabController {
                     number: 'number',
                     text: 'text',
                 }],
-            }];
+            }]
 
             const resultResponse = await transform(xml, template)
             return new CustomMessage(response).success(resultResponse[0])

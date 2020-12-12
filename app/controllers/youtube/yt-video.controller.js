@@ -18,7 +18,7 @@ class YtVideoController {
             }, 400)
         }
 
-        const urlY2Mate = 'https://www.y2mate.com/en5/download-youtube';
+        const urlY2Mate = 'https://www.y2mate.com/en5/download-youtube'
         const browser = await puppeteer.launch(puppeteerValues.options)
         try {
             const page = await browser.newPage()

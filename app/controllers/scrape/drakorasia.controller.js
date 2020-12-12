@@ -21,7 +21,7 @@ class DrakorasiaController {
         }
 
         const keyword = search.replace(/ /g, '+')
-        const url = `https://drakorasia.net/?s=${keyword}&post_type=post`;
+        const url = `https://drakorasia.net/?s=${keyword}&post_type=post`
 
         try {
             // search page

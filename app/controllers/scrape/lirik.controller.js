@@ -20,7 +20,7 @@ class LirikController {
         }
 
         const keyword = search.replace(/ /g, '+')
-        const url = `https://lirik.web.id/results/?q=${keyword}`;
+        const url = `https://lirik.web.id/results/?q=${keyword}`
 
         const browser = await puppeteer.launch(puppeteerValues.options)
 

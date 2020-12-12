@@ -12,7 +12,7 @@ class WhatAnimeController {
         const { limit, url } = request.query
         const { image } = request.body
         const method = request.method
-        let traceResponse;
+        let traceResponse
 
         try {
             if (method === 'POST') {
