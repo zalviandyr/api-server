@@ -20,7 +20,7 @@ class KusonimeController {
         }
 
         const keyword = search.replace(/ /g, '+')
-        const urlKusonime = `https://kusonime.com/?s=${keyword}&post_type=post`;
+        const urlKusonime = `https://kusonime.com/?s=${keyword}&post_type=post`
 
         try {
             // search page
