@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer')
-const { puppeteerValues } = require('helpers/values')
+const axios = require('axios')
+const cheerio = require('cheerio')
 const { shortTitleDrakorasia } = require('helpers/values')
 const { CustomMessage } = require('helpers/CustomMessage')
 
@@ -23,130 +23,91 @@ class DrakorasiaController {
         const keyword = search.replace(/ /g, '+')
         const url = `https://drakorasia.net/?s=${keyword}&post_type=post`;
 
-        const browser = await puppeteer.launch(puppeteerValues.options)
-
         try {
-            const page = await browser.newPage()
-            await page.setUserAgent(puppeteerValues.userAgent)
-
-            await page.goto(url)
-
-            const xpathSearchResult = '//div[@class="mulai"]/div[@class="pem"]/div[@class="row"]'
-            await page.waitForXPath(xpathSearchResult)
-            const [elementSearchResult] = await page.$x(xpathSearchResult)
-            const firstResultUrl = await page.evaluate((element) => {
-                const result = element.querySelector('div.ct-th')
-                if (result === null) {
-                    return null
-                }
-                return element.querySelector('div.ct-th > div.ct-tt > a').getAttribute('href')
-            }, elementSearchResult)
-
-            if (firstResultUrl) {
-                await page.goto(firstResultUrl)
-
-                const xpathContainer = '//div[@class="if-ct"]/div[@class="inf"]/div[@class="container"]'
-                await page.waitForXPath(xpathContainer)
-                const [elementContainer] = await page.$x(xpathContainer)
-                const containerResult = await page.evaluate((element) => {
-                    const thumb = element.querySelector('div.if-th > img').getAttribute('src')
-                    const title = element.querySelector('div.if-tt > h1').innerText
-                    const titleKr = element.querySelector('div.if-tt > p').innerText.split('/')[0].trim()
-                    const year = element.querySelector('div.if-tt > p').innerText.split('/')[1].trim()
-                    const episode = element.querySelector('div.if-tt > p').innerText.split('/')[2].trim()
-                    const genre = element.querySelector('div.if-tt > p.genres').innerText.replace(/ - /g, ', ')
-                    const duration = element.querySelector('div.if-tt > p.nt > span').innerText
-                    const network = element.querySelector('div.if-tt > p.nt > a').innerText
-
-                    return {
-                        thumb, title, titleKr, year, episode, genre, duration, network,
-                    }
-                }, elementContainer)
-
-                const xpathContainerWrapper = '//div[@class="container wrapper"]/div/div/div/div'
-                await page.waitForXPath(xpathContainerWrapper)
-                const [elementContainerWrapper] = await page.$x(xpathContainerWrapper)
-                const containerWrapperResult = await page.evaluate((element, shortTitleDownload) => {
-                    const synopsis = element.querySelector('div#synopsis > p').innerText
-                    const casters = (() => {
-                        const castersElement = element.querySelectorAll('div.caster > a')
-                        const temp = []
-                        for (let i = 0; i < castersElement.length; i++) {
-                            temp.push(castersElement[i].textContent)
-                        }
-                        return temp.join(', ')
-                    })()
-                    const contentPost = element.querySelector('div#content-post > table')
-
-                    const resolutionDownload = (() => {
-                        const resDownloadAvailable = contentPost.querySelectorAll('thead > tr > th')
-                        const temp = []
-                        for (let i = 1; i < resDownloadAvailable.length; i++) {
-                            temp.push(resDownloadAvailable[i].innerText.split(' ')[1])
-                        }
-                        return temp
-                    })()
-
-                    const episodes = (() => {
-                        const tempEpisodes = contentPost.querySelectorAll('tbody > tr')
-                        const tempResult = []
-                        for (let i = 0; i < tempEpisodes.length; i++) {
-                            const episode = tempEpisodes[i].querySelector('td:nth-child(1)').innerText
-                            const tempDownloads = []
-
-                            for (let j = 0; j < resolutionDownload.length; j++) {
-                                const downloadList = tempEpisodes[i].querySelectorAll(`td:nth-child(${j + 2}) > a`)
-                                const resolution = resolutionDownload[j]
-                                const tempDownloadLink = []
-
-                                for (let k = 0; k < downloadList.length; k++) {
-                                    const title = (() => {
-                                        const tempTitle = downloadList[k].textContent.trim()
-                                        for (let l = 0; l < shortTitleDownload.length; l++) {
-                                            if (tempTitle === shortTitleDownload[l].shortName) {
-                                                return shortTitleDownload[l].name
-                                            }
-                                        }
-                                        return tempTitle
-                                    })()
-                                    const link = downloadList[k].getAttribute('href')
-                                    tempDownloadLink.push({
-                                        title,
-                                        link,
-                                    })
-                                }
-                                tempDownloads.push({
-                                    resolution,
-                                    download_link: tempDownloadLink,
-                                })
-                            }
-                            tempResult.push({
-                                episode,
-                                downloads: tempDownloads,
-                            })
-                        }
-                        return tempResult
-                    })()
-
-                    return { synopsis, casters, episodes }
-                }, elementContainerWrapper, shortTitleDrakorasia)
-
-                return new CustomMessage(response).success(
-                    Object.assign(containerResult, containerWrapperResult),
-                    200,
-                    async () => { await browser.close() },
-                )
+            // search page
+            const responseSearch = await axios.get(url)
+            const selectorSearch = cheerio.load(responseSearch.data)
+            const searchResult = selectorSearch('div[class="row"] > div')
+            const firstSearchUrl = searchResult.first().find('div[class="ct-th"] > a').attr('href')
+            if (searchResult.contents().length === 0) {
+                return new CustomMessage(response).error({
+                    status_code: 404,
+                    message: 'Maaf, tidak ada hasil untuk mu',
+                }, 404)
             }
 
-            return new CustomMessage(response).error({
-                status_code: 404,
-                message: 'Maaf, tidak ada hasil untuk mu',
-            }, 404, async () => { await browser.close() })
+            // content page
+            const responseContent = await axios.get(firstSearchUrl)
+            const selectorContent = cheerio.load(responseContent.data)
+            const rootHeader = selectorContent('div[class="if-ct"] > div[class="inf"] > div[class="container"]')
+            const rootBody = selectorContent('div[class="container post-outer pt-5 pb-5"] > div > div > div').first()
+            const rootDownload = rootBody.find('div[id="content-post"] > table')
+
+            const resultResponse = {}
+            resultResponse.thumb = rootHeader.find('div[class="if-th"] > img').attr('src')
+            resultResponse.title = rootHeader.find('div[class="if-tt w-50"] > h1').text()
+            resultResponse.titleKr = rootHeader.find('div[class="if-tt w-50"] > p')
+                .first().text().split('/')[0].trim()
+            resultResponse.year = rootHeader.find('div[class="if-tt w-50"] > p')
+                .first().text().split('/')[1].trim()
+            resultResponse.episode = rootHeader.find('div[class="if-tt w-50"] > p')
+                .first().text().split('/')[2].trim()
+            resultResponse.genre = rootHeader.find('div[class="if-tt w-50"] > p[class="genres"]')
+                .text().replace(/ - /g, ', ')
+            resultResponse.duration = rootHeader.find('div[class="if-tt w-50"] > p[class="nt"] > span')
+                .text()
+            resultResponse.network = rootHeader.find('div[class="if-tt w-50"] > p[class="nt"] > a')
+                .text()
+            resultResponse.synopsis = rootBody.find('div[id="synopsis"] > p').text()
+
+            // casters
+            const tempCasters = []
+            rootBody.find('div[class="caster m-3"] > a')
+                .each((i, elm) => { tempCasters.push(selectorContent(elm).text()) })
+            resultResponse.casters = tempCasters.join(', ')
+
+            // episodes
+            resultResponse.episodes = []
+            const availableResolution = []
+            rootDownload.find('thead > tr > th')
+                .each((i, elm) => {
+                    if (i > 0) availableResolution.push(selectorContent(elm).text().split(' ')[1])
+                })
+
+            rootDownload.find('tbody > tr')
+                .each((i, elm) => {
+                    const downloads = []
+                    const episode = selectorContent(elm).children('td').first().text()
+
+                    // tidak mengambil episode, hanya download link
+                    for (let j = 1; j <= availableResolution.length; j++) {
+                        const downloadLink = []
+                        const resolution = availableResolution[j - 1]
+
+                        // link download
+                        selectorContent(
+                            selectorContent(elm).children('td').get(j),
+                        ).children('a').each((iA, elmA) => {
+                            let title = selectorContent(elmA).text()
+                            const link = selectorContent(elmA).attr('href')
+
+                            shortTitleDrakorasia.forEach((val) => {
+                                if (val.shortName === title) title = val.name
+                            })
+                            downloadLink.push({ title, link })
+                        })
+                        // const server = selectorContent(elm).children('td').children('a').text()
+                        downloads.push({ resolution, download_link: downloadLink })
+                    }
+                    resultResponse.episodes.push({ episode, downloads })
+                })
+
+            return new CustomMessage(response).success(resultResponse)
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500)
         }
     }
 }
