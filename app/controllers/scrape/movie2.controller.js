@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer')
-const { puppeteerValues } = require('helpers/values')
+const axios = require('axios')
+const cheerio = require('cheerio')
 const { CustomMessage } = require('helpers/CustomMessage')
 
 class Movie2Controller {
@@ -21,95 +21,71 @@ class Movie2Controller {
 
         search = search.replace(/ /g, '+')
         const url = `https://www.driverays.net/?s=${search}`
-        const browser = await puppeteer.launch(puppeteerValues.options)
 
         try {
-            const page = await browser.newPage()
-            // user agent
-            await page.setUserAgent(puppeteerValues.userAgent)
-
-            await page.goto(url)
-
-            const xpathSearchResult = '//div[@id="movies"]/div[2]'
-            await page.waitForXPath(xpathSearchResult)
-            const [elementsSearchResult] = await page.$x(xpathSearchResult)
-            const resultFirstSearchUrl = await page.evaluate((element) => {
-                const searchResults = element.querySelectorAll('div')
-                if (searchResults.length === 0) return null
-                return searchResults[0].querySelector('a').getAttribute('href')
-            }, elementsSearchResult)
-
-            if (resultFirstSearchUrl === null) {
+            // search page
+            const responseSearch = await axios.get(url)
+            const selectorSearch = cheerio.load(responseSearch.data)
+            const searchResult = selectorSearch(selectorSearch('div#movies > div').get(1)).children('div')
+            const firstSearchUrl = searchResult.first().children('a').attr('href')
+            if (searchResult.length === 0) {
                 return new CustomMessage(response).error({
                     status_code: 404,
                     message: 'Maaf, tidak ada hasil untuk mu',
-                }, 404, async () => { await browser.close() })
+                }, 404)
             }
 
-            await page.goto(resultFirstSearchUrl)
-            const xpathMainContent = '//div[@id="main-content"]'
-            await page.waitForXPath(xpathMainContent)
-            const [elementsMainContent] = await page.$x(xpathMainContent)
-            const resultMainContent = await page.evaluate((element) => {
-                const nullSafety = (elementSelected) => ((elementSelected) ? elementSelected.innerText : '')
+            // content page
+            const responseContent = await axios.get(firstSearchUrl)
+            const selectorContent = cheerio.load(responseContent.data)
+            const root = selectorContent('div#main-content')
+            const rootHeader = root.children('div.tpost')
+            const rootDetail = root.children('div.info_movie').children('div.postdetail')
+            const rootDownload = root.find('table.download > tbody > tr:not(.ini)')
 
-                const thumb = element.querySelector('div.info_movie > div.posthumb > img').getAttribute('src')
-                // score and quality
-                const scoreQuality = (() => {
-                    const temp = element.querySelectorAll('div.tpost > div.backdrop > div.absolute > span')
-                    return {
-                        score: nullSafety(temp[0]),
-                        quality: nullSafety(temp[1]),
-                    }
-                })()
-                const title = nullSafety(element.querySelector('div.info_movie > div.postdetail > h1'))
-                const year = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.thn > div:nth-child(1)'))
-                const country = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.thn > div:nth-child(2)'))
-                const duration = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.thn > div:nth-child(3)'))
-                const director = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.info > p:nth-child(1) > a'))
-                const rating = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.info > p:nth-child(2)')).split(':')[1].trim()
-                const genre = nullSafety(element.querySelector('div.info_movie > div.postdetail > div.info > p:nth-child(3)')).replace(/ /g, ', ')
-                const synopsis = nullSafety(element.querySelector('div#tab-1 > p'))
-                const trailer = element.querySelector('div#tab-2 > div.player-embed > iframe').getAttribute('src')
-                const downloads = (() => {
-                    const tempDownloads = []
-                    const tbodyDownload = element.querySelectorAll('div > table.download > tbody >tr:not(.ini)')
-                    for (let i = 0; i < tbodyDownload.length; i++) {
-                        const server = nullSafety(tbodyDownload[i].querySelector('td:nth-child(1)'))
-                        const description = nullSafety(tbodyDownload[i].querySelector('td:nth-child(2) > a'))
-                        const link = tbodyDownload[i].querySelector('td:nth-child(2) > a').getAttribute('href')
-                        const size = nullSafety(tbodyDownload[i].querySelector('td:nth-child(3)'))
+            const resultResponse = {}
+            resultResponse.thumb = rootHeader.find('div > img').attr('src')
+            resultResponse.score = rootHeader.find('div > div > span.bg-yellow-105').first().text()
+            resultResponse.quality = rootHeader.find('div > div > span.bg-orange-500').last().text()
+            resultResponse.title = rootDetail.children('h1').text()
 
-                        tempDownloads.push({
-                            server, description, link, size,
-                        })
-                    }
-                    return tempDownloads
-                })()
+            // year, country and duration
+            let temp
+            temp = rootDetail.children('div.thn').children('div.mr-4')
+            resultResponse.year = temp.first().text()
+            resultResponse.country = temp.next().first().text()
+            resultResponse.duration = temp.last().text()
 
-                return {
-                    thumb,
-                    score: scoreQuality.score,
-                    quality: scoreQuality.quality,
-                    title,
-                    year,
-                    country,
-                    duration,
-                    director,
-                    rating,
-                    genre,
-                    synopsis,
-                    trailer,
-                    downloads,
-                }
-            }, elementsMainContent)
+            temp = rootDetail.children('div.info').children('p')
+            resultResponse.director = temp.first().text().split(':')[1].trim()
+            resultResponse.rating = temp.next().first().text().split(':')[1].trim()
+            resultResponse.genre = temp.last().children('a')
+                .map((i, elm) => selectorContent(elm).text())
+                .get()
+                .join(', ')
 
-            return new CustomMessage(response).success(resultMainContent, 200, async () => { await browser.close() })
+            resultResponse.synopsis = root.find('div#tab-1 > p').text()
+            resultResponse.trailer = root.find('div#tab-2 > div.player-embed > iframe').attr('src')
+
+            // downloads
+            resultResponse.downloads = []
+            rootDownload.each((i, elm) => {
+                const tempTd = selectorContent(elm).children('td')
+                const server = selectorContent(tempTd.get(0)).text()
+                const description = selectorContent(tempTd.get(1)).text()
+                const link = selectorContent(tempTd.get(1)).children('a').attr('href')
+                const size = selectorContent(tempTd.get(2)).text()
+                resultResponse.downloads.push({
+                    server, description, link, size,
+                })
+            })
+
+            return new CustomMessage(response).success(resultResponse)
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500)
         }
     }
 }
