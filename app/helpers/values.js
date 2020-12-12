@@ -52,10 +52,10 @@ const authentication = {
 exports.authentication = authentication
 
 const filePath = {
-    kabupatenKota: './app/storages/kabupaten-kota.json',
-    quotes: './app/storages/quotes.json',
-    quotesAgamis: './app/storages/quotes-agamis.json',
-    waifuPic: './app/storages/waifu-pic.json',
+    kabupatenKota: './storages/kabupaten-kota.json',
+    quotes: './storages/quotes.json',
+    quotesAgamis: './storages/quotes-agamis.json',
+    waifuPic: './storages/waifu-pic.json',
 }
 exports.filePath = filePath
 
