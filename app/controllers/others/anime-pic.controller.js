@@ -23,33 +23,36 @@ class AnimePicController {
         }
 
         const genreList = [
-            'neko', 'foxgirl', 'ass', 'bdsm', 'blowjob', 'cum',
-            'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'lolisfw', 'loli',
+            'neko', 'foxgirl', 'husbu', 'lolisfw', 'randomsfw',
+
+            'ass', 'bdsm', 'blowjob', 'cum',
+            'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'loli',
             'netorare', 'maid', 'masturbation', 'orgy', 'panties',
             'pussy', 'school', 'tentacles', 'thighs', 'uglybastard',
-            'uniform', 'yuri', 'wallpaper', 'randomsfw', 'randomnsfw']
+            'uniform', 'yuri', 'yaoi', 'wallpaper', 'randomnsfw']
 
         try {
+            const getType = async (filePathPic) => {
+                const data = await fs.readFile(filePathPic, 'utf8')
+                const json = JSON.parse(data)
+                const random = Math.floor(Math.random() * json.length)
+                return json[random]
+            }
+
             if (genreList.includes(genre)) {
                 let type
 
                 // SFW
                 if (genre === 'neko') type = akaneko.neko()
                 if (genre === 'foxgirl') type = akaneko.foxgirl()
-                if (genre === 'randomsfw') {
-                    type = (async () => {
-                        const data = await fs.readFile(filePath.waifuPic, 'utf8')
-                        const json = JSON.parse(data)
-                        const random = Math.floor(Math.random() * json.length)
-                        return json[random]
-                    })()
-                }
+                if (genre === 'randomsfw') type = getType(filePath.waifuPic)
                 if (genre === 'lolisfw') {
                     type = (async () => {
                         const { data } = await axios.get('https://api.lolis.life/random?nsfw=false')
                         return data.url
                     })()
                 }
+                if (genre === 'husbu') type = getType(filePath.husbuPic)
 
                 // NSFW
                 if (genre === 'ass') type = akaneko.nsfw.ass()
@@ -73,6 +76,7 @@ class AnimePicController {
                 if (genre === 'uglybastard') type = akaneko.nsfw.uglyBastard()
                 if (genre === 'uniform') type = akaneko.nsfw.uniform()
                 if (genre === 'yuri') type = akaneko.nsfw.yuri()
+                if (genre === 'yaoi') type = getType(filePath.yaoiPic)
                 if (genre === 'wallpaper') type = akaneko.nsfw.mobileWallpapers()
                 if (genre === 'randomnsfw') type = trev.nsfw.hentai()
                 if (genre === 'loli') {
