@@ -24,6 +24,7 @@ class AnimePicController {
 
         const genreList = [
             'neko', 'foxgirl', 'husbu', 'lolisfw', 'randomsfw',
+            'inori',
 
             'ass', 'bdsm', 'blowjob', 'cum',
             'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'loli',
@@ -53,6 +54,7 @@ class AnimePicController {
                     })()
                 }
                 if (genre === 'husbu') type = getType(filePath.husbuPic)
+                if (genre === 'inori') type = getType(filePath.inoriPic)
 
                 // NSFW
                 if (genre === 'ass') type = akaneko.nsfw.ass()
