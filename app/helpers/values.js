@@ -56,6 +56,8 @@ const filePath = {
     quotes: './storages/quotes.json',
     quotesAgamis: './storages/quotes-agamis.json',
     waifuPic: './storages/waifu-pic.json',
+    husbuPic: './storages/husbu-pic.json',
+    yaoiPic: './storages/yaoi-pic.json',
 }
 exports.filePath = filePath
 
