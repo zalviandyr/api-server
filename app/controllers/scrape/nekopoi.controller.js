@@ -30,7 +30,7 @@ class NekopoiController {
             const rootDownload = selectorContent('.arealinker > .boxdownload')
 
             const resultResponse = {}
-            resultResponse.thumb = rootHeader.children('h1').text()
+            resultResponse.thumb = rootContent.find('.thm > img').attr('src')
             resultResponse.url = postUrl
             // info
             const getText = (infoType) => {
@@ -42,7 +42,7 @@ class NekopoiController {
                 const textArray = info.text().split(':')
                 return textArray.slice(1, textArray.length).join('').trim()
             }
-            resultResponse.title = getText('Title')
+            resultResponse.title = rootHeader.children('h1').text()
             resultResponse.title_jp = getText('Japanese Title')
             resultResponse.movie_id = getText('Movie ID')
             resultResponse.producers = getText('Producers')
