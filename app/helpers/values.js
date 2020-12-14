@@ -59,6 +59,7 @@ const filePath = {
     inoriPic: './storages/inori-pic.json',
     waifuPic: './storages/waifu-pic.json',
     yaoiPic: './storages/yaoi-pic.json',
+    animeWallpaper: './storages/anime-wallpaper-pic.json',
 }
 exports.filePath = filePath
 

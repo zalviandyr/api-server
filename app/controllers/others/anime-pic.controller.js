@@ -24,13 +24,13 @@ class AnimePicController {
 
         const genreList = [
             'neko', 'foxgirl', 'husbu', 'lolisfw', 'randomsfw',
-            'inori',
+            'inori', 'wallpapersfw',
 
             'ass', 'bdsm', 'blowjob', 'cum',
             'doujin', 'feet', 'femdom', 'glasses', 'hentai', 'loli',
             'netorare', 'maid', 'masturbation', 'orgy', 'panties',
             'pussy', 'school', 'tentacles', 'thighs', 'uglybastard',
-            'uniform', 'yuri', 'yaoi', 'wallpaper', 'randomnsfw']
+            'uniform', 'yuri', 'yaoi', 'wallpapernsfw', 'randomnsfw']
 
         try {
             const getType = async (filePathPic) => {
@@ -55,6 +55,7 @@ class AnimePicController {
                 }
                 if (genre === 'husbu') type = getType(filePath.husbuPic)
                 if (genre === 'inori') type = getType(filePath.inoriPic)
+                if (genre === 'wallpapersfw') type = getType(filePath.animeWallpaper)
 
                 // NSFW
                 if (genre === 'ass') type = akaneko.nsfw.ass()
@@ -79,7 +80,7 @@ class AnimePicController {
                 if (genre === 'uniform') type = akaneko.nsfw.uniform()
                 if (genre === 'yuri') type = akaneko.nsfw.yuri()
                 if (genre === 'yaoi') type = getType(filePath.yaoiPic)
-                if (genre === 'wallpaper') type = akaneko.nsfw.mobileWallpapers()
+                if (genre === 'wallpapernsfw') type = akaneko.nsfw.mobileWallpapers()
                 if (genre === 'randomnsfw') type = trev.nsfw.hentai()
                 if (genre === 'loli') {
                     type = (async () => {
