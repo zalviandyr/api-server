@@ -31,12 +31,12 @@ class IgController {
             await page.waitForSelector('div.success')
             const result = await page.$eval('div.success > a', (el) => el.getAttribute('href'))
 
-            return new CustomMessage(response).success({ url: result }, 200, async () => { await browser.close() })
+            return new CustomMessage(response).success({ url: result }, 200, async () => { browser.close() })
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500, async () => { browser.close() })
         }
     }
 }
