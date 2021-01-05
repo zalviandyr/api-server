@@ -61,18 +61,18 @@ class LirikController {
                     return { title, lyric: temp }
                 }, elementsMainContent)
 
-                return new CustomMessage(response).success(mainContentResult, 200, async () => { await browser.close() })
+                return new CustomMessage(response).success(mainContentResult, 200, async () => { browser.close() })
             }
 
             return new CustomMessage(response).error({
                 status_code: 404,
                 message: 'Maaf, tidak ada hasil untuk mu',
-            }, 404, async () => { await browser.close() })
+            }, 404, async () => { browser.close() })
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500, async () => { browser.close() })
         }
     }
 }

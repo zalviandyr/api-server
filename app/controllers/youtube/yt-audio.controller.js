@@ -52,14 +52,14 @@ class YtAudioController {
                 ext: 'mp3',
                 url: urlResult,
             }, 200, async () => {
-                await browser.close()
+                browser.close()
             })
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
             }, 500, async () => {
-                await browser.close()
+                browser.close()
             })
         }
     }

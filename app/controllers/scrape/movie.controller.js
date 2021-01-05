@@ -131,13 +131,13 @@ class MovieController {
             return new CustomMessage(response).success(
                 resultResponse,
                 200,
-                async () => { await browser.close() },
+                async () => { browser.close() },
             )
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500, async () => { await browser.close() })
+            }, 500, async () => { browser.close() })
         }
     }
 }
