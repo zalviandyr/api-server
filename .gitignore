@@ -8,3 +8,6 @@ package-lock.json
 # Who care with these file/folder
 testing.js
 storage/garbage
+
+# Environment
+.env

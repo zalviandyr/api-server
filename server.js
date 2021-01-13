@@ -1,4 +1,5 @@
 require('module-alias/register')
+require('dotenv').config()
 
 const { Route } = require('cores/Route')
 const { app } = require('./app')

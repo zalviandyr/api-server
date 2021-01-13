@@ -38,15 +38,15 @@ exports.urlBmkg = urlBmkg
 
 const authentication = {
     igBlade: {
-        bearer: ***REMOVED***,
+        bearer: process.env.IG_BLADE_BEARER,
     },
     ibm: {
-        username: ***REMOVED***,
-        password: ***REMOVED***,
+        username: process.env.IBM_USERNAME,
+        password: process.env.IBM_PASSWORD,
     },
     saweria: {
-        email: ***REMOVED***,
-        password: ***REMOVED***,
+        email: process.env.SAWERIA_EMAIL,
+        password: process.env.SAWERIA_PASSWORD,
     },
 }
 exports.authentication = authentication
