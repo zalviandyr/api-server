@@ -13,6 +13,7 @@
 
 ## Endpoint
 
+<<<<<<< HEAD
 | Name     | Method | Endpoint         | Query / Body                   | Value                                  |
 | -------- | ------ | ---------------- | ------------------------------ | -------------------------------------- |
 | BMKG     | GET    | /info-gempa      | -                              | -                                      |
@@ -107,3 +108,32 @@
 | Random |
 | Kanye  |
 | Agamis |
+=======
+| Name  | Endpoint        |
+| ----- | --------------- |
+| BMKG  | /info-gempa     |
+| BMKG  | /cuaca          |
+| Other | /kabupaten-kota |
+
+/covid-indonesia
+/quote-maker
+/meme',
+/translate',
+/bosan',
+/anime-pic
+/speech',
+/quote',
+/what-anime
+/what-anime
+/saweria', |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+| Other | |
+>>>>>>> f3416a83cebf290e56484ce6a758b382a74f3383
