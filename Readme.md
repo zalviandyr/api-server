@@ -4,9 +4,9 @@
 
 -   Install dependencies
 
-        ```bash
-        > npm i
-        ```
+    ```bash
+    > npm i
+    ```
 
 -   Setting .env (Environment)
 
