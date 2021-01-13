@@ -38,15 +38,15 @@ exports.urlBmkg = urlBmkg
 
 const authentication = {
     igBlade: {
-        bearer: 'HC8ZeefqKQPHf4lswgffvhd5fFhLo8jnit3OTX1wErQDwsSDZ5jy6IJqbtqx',
+        bearer: process.env.IG_BLADE_BEARER,
     },
     ibm: {
-        username: 'apikey',
-        password: 'eFqDzlg1HOxCUJHvJQioQnJswV8IcoF_KCl6l4pLtBWs',
+        username: process.env.IBM_USERNAME,
+        password: process.env.IBM_PASSWORD,
     },
     saweria: {
-        email: 'zukronalviandy@gmail.com',
-        password: 'f9tDgYZxBDNwAa.',
+        email: process.env.SAWERIA_EMAIL,
+        password: process.env.SAWERIA_PASSWORD,
     },
 }
 exports.authentication = authentication
