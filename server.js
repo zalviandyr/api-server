@@ -11,7 +11,7 @@ class App extends Route {
         app.enable('trust proxy')
         app.use('/api', super.init())
         app.listen(port, () => {
-            console.log(`server started at port: ${port}`)
+            console.log(`Server started at port: ${port}`)
         })
     }
 }
