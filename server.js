@@ -6,7 +6,7 @@ const { app } = require('./app')
 
 class App extends Route {
     init() {
-        const port = 4000
+        const port = process.env.PORT || 4000
 
         app.enable('trust proxy')
         app.use('/api', super.init())
