@@ -10,6 +10,26 @@
 
 -   Setting .env (Environment)
 
+## Installation on Heroku
+
+-   Create App
+
+    ```bash
+    > heroku app [app-name]
+    ```
+
+-   Add Buildpack Puppeteer
+
+    ```bash
+    > heroku buildpacks:add jontewks/puppeteer
+    ```
+
+-   Push into Heroku
+
+    ```bash
+    > git push heroku master
+    ```
+
 ## Base URL
 
 `http://127.0.0.1/api`
