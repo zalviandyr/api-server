@@ -39,8 +39,8 @@
 | Scrape   | GET    | /kusonime        | search                         | -                                      |
 | Scrape   | GET    | /arti-nama       | nama                           | -                                      |
 | Scrape   | GET    | /pasangan        | nama1, nama2                   | -                                      |
-| Scrape   | GET    | /penyakit        | tanggal (DD-MM-YYY)            | -                                      |
-| Scrape   | GET    | /pekerjaan       | tanggal (DD-MM-YYY)            | -                                      |
+| Scrape   | GET    | /penyakit        | tanggal (DD-MM-YYYY)           | -                                      |
+| Scrape   | GET    | /pekerjaan       | tanggal (DD-MM-YYYY)           | -                                      |
 | Scrape   | GET    | /drakorasia      | search                         | -                                      |
 | Scrape   | GET    | /lirik           | search                         | -                                      |
 | Scrape   | GET    | /movie           | search                         | -                                      |
