@@ -18,39 +18,59 @@ class YtAudioController {
             }, 400)
         }
 
-        const urlY2Mate = 'https://www.y2mate.com/en5/download-youtube'
+        const urlYt1s = 'https://yt1s.com'
         const browser = await puppeteer.launch(puppeteerValues.options)
         try {
             const page = await browser.newPage()
             // user agent
             await page.setUserAgent(puppeteerValues.userAgent)
+            await page.goto(urlYt1s)
 
-            await page.goto(urlY2Mate)
+            // input url youtube
+            await page.waitForSelector('#s_input')
+            const input = await page.$('#s_input')
+            await input.type(url)
 
-            // input youtube url
-            await page.type('input.form-control.input-lg', url)
-            await page.click('button.btn.btn-lg')
+            // convert
+            await page.waitForSelector('.btn-red')
+            const convert = await page.$('.btn-red')
+            await convert.click()
 
-            await page.waitForXPath('//div[@class="caption text-left"]')
-            const [elementsTitle] = await page.$x('//div[@class="caption text-left"]')
-            const title = await elementsTitle.$eval('b', (el) => el.innerText)
-            const duration = await elementsTitle.$eval('p', (el) => el.innerText.split(' ')[1])
+            // select mp3 and get size
+            await page.waitForSelector('[label="mp3"]')
+            const size = await page.$eval('[label="mp3"]', (el) => {
+                let result = '';
+                const options = el.querySelectorAll('option')
 
-            await page.waitForXPath('//div[@class="tab-pane fade"][@id="mp3"]')
-            const [elementsMp3] = await page.$x('//div[@class="tab-pane fade"][@id="mp3"]')
-            const size = await elementsMp3.$eval('table > tbody > tr:nth-child(1) > td:nth-child(2)', (el) => el.innerText)
-            await elementsMp3.$eval('table > tbody > tr:nth-child(1) > td:nth-child(3) > a', (el) => el.click())
+                options[0].selected = true
+                const text = options[0].textContent
+                const array = text.split('(')[1]
+                result = array.replace(')', '').trim()
 
-            await page.waitForXPath('//div[@class="form-group has-success has-feedback"]', { visible: true })
-            const [elements] = await page.$x('//div[@class="form-group has-success has-feedback"]')
-            const urlResult = await page.evaluate((element) => element.querySelector('a').getAttribute('href'), elements)
+                return result
+            })
+
+            // get link
+            await page.waitForSelector('#btn-action')
+            const getLinkBtn = await page.$('#btn-action')
+            await getLinkBtn.click()
+
+            // get link download
+            await page.waitForSelector('#asuccess', { visible: true })
+            const downloadLink = await page.$eval('#asuccess', (el) => el.getAttribute('href'))
+
+            // get title
+            const title = await page.$eval('.clearfix > h3', (el) => el.textContent)
+
+            // get duration
+            const duration = await page.$eval('.clearfix > .mag0', (el) => el.textContent)
 
             return new CustomMessage(response).success({
                 title,
                 size,
                 duration,
                 ext: 'mp3',
-                url: urlResult,
+                url: downloadLink,
             }, 200, async () => {
                 browser.close()
             })

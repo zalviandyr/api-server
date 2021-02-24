@@ -18,55 +18,64 @@ class YtVideoController {
             }, 400)
         }
 
-        const urlY2Mate = 'https://www.y2mate.com/en5/download-youtube'
+        const urlYt1s = 'https://yt1s.com'
         const browser = await puppeteer.launch(puppeteerValues.options)
         try {
             const page = await browser.newPage()
             // user agent
             await page.setUserAgent(puppeteerValues.userAgent)
+            await page.goto(urlYt1s)
 
-            await page.goto(urlY2Mate)
+            // input url youtube
+            await page.waitForSelector('#s_input')
+            const input = await page.$('#s_input')
+            await input.type(url)
 
-            // input youtube url
-            await page.type('input.form-control.input-lg', url)
-            await page.click('button.btn.btn-lg')
+            // convert
+            await page.waitForSelector('.btn-red')
+            const convert = await page.$('.btn-red')
+            await convert.click()
 
-            await page.waitForXPath('//div[@class="caption text-left"]')
-            const [elementsTitle] = await page.$x('//div[@class="caption text-left"]')
-            const title = await elementsTitle.$eval('b', (el) => el.innerText)
-            const duration = await elementsTitle.$eval('p', (el) => el.innerText.split(' ')[1])
+            // select 480p and get size
+            await page.waitForSelector('[label="mp4"]')
+            const size = await page.$eval('[label="mp4"]', (el) => {
+                let result = '';
+                const options = el.querySelectorAll('option')
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].textContent.includes('480')) {
+                        options[i].selected = true
 
-            const xpathMP4 = '//div[@class="tab-pane fade active in"][@id="mp4"]'
-            await page.waitForXPath(xpathMP4)
-            const [elementsMp4] = await page.$x(xpathMP4)
-            const result = await page.evaluate((elements) => {
-                const listDownResolution = elements.querySelectorAll('table > tbody > tr')
-                for (let i = 0; i < listDownResolution.length; i++) {
-                    // get 360p resolution
-                    const listResolution = listDownResolution[i].querySelector('td:nth-child(1) > a').innerText.split(' ')[0]
-                    if (listResolution === '360p') {
-                        const resolution = listResolution
-                        const size = listDownResolution[i].querySelector('td:nth-child(2)').innerText
-                        const downloadButton = listDownResolution[i].querySelector('td:nth-child(3) > a')
-                        downloadButton.click()
-
-                        return { resolution, size }
+                        const text = options[i].textContent
+                        const array = text.split('(')[1]
+                        result = array.replace(')', '').trim()
                     }
                 }
-                return null
-            }, elementsMp4)
 
-            await page.waitForXPath('//div[@class="form-group has-success has-feedback"]', { visible: true })
-            const [elements] = await page.$x('//div[@class="form-group has-success has-feedback"]')
-            const urlResult = await page.evaluate((element) => element.querySelector('a').getAttribute('href'), elements)
+                return result
+            })
+
+            // get link
+            await page.waitForSelector('#btn-action')
+            const getLinkBtn = await page.$('#btn-action')
+            await getLinkBtn.click()
+
+            // get link download
+            await page.waitForSelector('#asuccess', { visible: true })
+            const downloadLink = await page.$eval('#asuccess', (el) => el.getAttribute('href'))
+
+            // get title
+            const title = await page.$eval('.clearfix > h3', (el) => el.textContent)
+
+            // get duration
+            const duration = await page.$eval('.clearfix > .mag0', (el) => el.textContent)
 
             return new CustomMessage(response).success({
                 title,
-                res: result.resolution,
-                size: result.size,
+                size,
+                res: '480p',
                 duration,
                 ext: 'mp4',
-                url: urlResult,
+                url: downloadLink,
             }, 200, async () => {
                 browser.close()
             })
