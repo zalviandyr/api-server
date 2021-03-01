@@ -68,6 +68,9 @@ class YtSearchController {
                 }
             }, elementsSearchResult)
 
+            // remove all query string
+            result.thumb = this.getPathFromUrl(result.thumb)
+
             return new CustomMessage(response).success(result, 200, async () => { browser.close() })
         } catch (err) {
             return new CustomMessage(response).error({
@@ -75,6 +78,11 @@ class YtSearchController {
                 message: err.message,
             }, 500, async () => { browser.close() })
         }
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    getPathFromUrl(url) {
+        return url.split(/[?#]/)[0];
     }
 }
 
