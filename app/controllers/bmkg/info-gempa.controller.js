@@ -10,8 +10,8 @@ class InfoGempaController {
 
     controller() {
         const { response } = this
-        const urlGempa = 'https://data.bmkg.go.id/autogempa.xml'
-        const urlGif = 'https://data.bmkg.go.id/eqmap.gif'
+        const urlGempa = 'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.xml'
+        const urlImage = 'https://data.bmkg.go.id/DataMKG/TEWS/20210301020019.mmi.jpg'
 
         axios({
             url: urlGempa,
@@ -25,15 +25,11 @@ class InfoGempaController {
                 magnitude: 'Magnitude',
                 kedalaman: 'Kedalaman',
                 potensi: 'Potensi',
-                wilayah1: 'Wilayah1',
-                wilayah2: 'Wilayah2',
-                wilayah3: 'Wilayah3',
-                wilayah4: 'Wilayah4',
-                wilayah5: 'Wilayah5',
+                wilayah: 'Wilayah',
             }]
 
             const tr = await transform(result.data, template)
-            tr[0].gif = urlGif
+            tr[0].image = urlImage
             return new CustomMessage(response).success(tr[0])
         }).catch((err) => new CustomMessage(response).error({
             status_code: 500,
