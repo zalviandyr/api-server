@@ -2,6 +2,7 @@ const akaneko = require('akaneko')
 const axios = require('axios')
 const fs = require('fs').promises
 const trev = require('trev')
+const Loli = require('lolis.life');
 const { CustomMessage } = require('helpers/CustomMessage')
 const { filePath } = require('helpers/values')
 
@@ -49,8 +50,9 @@ class AnimePicController {
                 if (genre === 'randomsfw') type = getType(filePath.waifuPic)
                 if (genre === 'lolisfw') {
                     type = (async () => {
-                        const { data } = await axios.get('https://api.lolis.life/random?nsfw=false')
-                        return data.url
+                        const loli = new Loli();
+                        const { url } = await loli.getSFWLoli()
+                        return url
                     })()
                 }
                 if (genre === 'husbu') type = getType(filePath.husbuPic)
@@ -84,8 +86,9 @@ class AnimePicController {
                 if (genre === 'randomnsfw') type = trev.nsfw.hentai()
                 if (genre === 'loli') {
                     type = (async () => {
-                        const { data } = await axios.get('https://api.lolis.life/random?nsfw=true')
-                        return data.url
+                        const loli = new Loli();
+                        const { url } = await loli.getNSFWLoli()
+                        return url
                     })()
                 }
 
