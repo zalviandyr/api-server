@@ -14,10 +14,12 @@ class JadwalSholatController {
         try {
             if (kota) {
                 const today = new Date().toISOString().slice(0, 10).split('-')
-                const url = `https://raw.githubusercontent.com/lakuapik/jadwalsholatorg/master/adzan/${kota}/${today[0]}/${today[1]}/${today[2]}.json`
+                const url = `https://raw.githubusercontent.com/lakuapik/jadwalsholatorg/master/adzan/${kota}/${today[0]}/${today[1]}.json`
 
-                const result = await axios.get(url)
-                return new CustomMessage(response).success(result.data)
+                const { data } = await axios.get(url)
+                // eslint-disable-next-line radix
+                const dateToday = parseInt(today[2]) - 1
+                return new CustomMessage(response).success(data[dateToday])
             }
 
             const url = 'https://raw.githubusercontent.com/lakuapik/jadwalsholatorg/master/kota.json'
