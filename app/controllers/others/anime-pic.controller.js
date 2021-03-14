@@ -1,5 +1,4 @@
 const akaneko = require('akaneko')
-const axios = require('axios')
 const fs = require('fs').promises
 const trev = require('trev')
 const Loli = require('lolis.life');

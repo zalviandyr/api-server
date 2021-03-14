@@ -27,9 +27,9 @@ class DrakorasiaController {
             // search page
             const responseSearch = await axios.get(url)
             const selectorSearch = cheerio.load(responseSearch.data)
-            const searchResult = selectorSearch('div[class="row"] > div')
-            const firstSearchUrl = searchResult.first().find('div[class="ct-th"] > a').attr('href')
-            if (searchResult.contents().length === 0) {
+            const searchResult = selectorSearch('#latest > .grid')
+            const firstSearchUrl = searchResult.find('#post > .cover > .thumbnail > a').attr('href')
+            if (searchResult.contents().length === 1) {
                 return new CustomMessage(response).error({
                     status_code: 404,
                     message: 'Maaf, tidak ada hasil untuk mu',
@@ -39,30 +39,30 @@ class DrakorasiaController {
             // content page
             const responseContent = await axios.get(firstSearchUrl)
             const selectorContent = cheerio.load(responseContent.data)
-            const rootHeader = selectorContent('div[class="if-ct"] > div[class="inf"] > div[class="container"]')
-            const rootBody = selectorContent('div[class="container post-outer pt-5 pb-5"] > div > div > div').first()
-            const rootDownload = rootBody.find('div[id="content-post"] > table')
+            // const rootHeader = selectorContent('div[class="if-ct"] > div[class="inf"] > div[class="container"]')
+            const rootHeader = selectorContent('#info_drama')
+            const rootDownload = selectorContent('#content-post > table')
 
             const resultResponse = {}
-            resultResponse.thumb = rootHeader.find('div[class="if-th"] > img').attr('src')
-            resultResponse.title = rootHeader.find('div[class="if-tt w-50"] > h1').text()
-            resultResponse.titleKr = rootHeader.find('div[class="if-tt w-50"] > p')
+            resultResponse.thumb = rootHeader.find('.thumbnail > img').attr('src')
+            resultResponse.title = rootHeader.find('.detail > h2').text()
+            resultResponse.titleKr = rootHeader.find('.detail > p')
                 .first().text().split('/')[0].trim()
-            resultResponse.year = rootHeader.find('div[class="if-tt w-50"] > p')
+            resultResponse.year = rootHeader.find('.detail > p')
                 .first().text().split('/')[1].trim()
-            resultResponse.episode = rootHeader.find('div[class="if-tt w-50"] > p')
+            resultResponse.episode = rootHeader.find('.detail > p')
                 .first().text().split('/')[2].trim()
-            resultResponse.genre = rootHeader.find('div[class="if-tt w-50"] > p[class="genres"]')
-                .text().replace(/ - /g, ', ')
-            resultResponse.duration = rootHeader.find('div[class="if-tt w-50"] > p[class="nt"] > span')
-                .text()
-            resultResponse.network = rootHeader.find('div[class="if-tt w-50"] > p[class="nt"] > a')
-                .text()
-            resultResponse.synopsis = rootBody.find('div[id="synopsis"] > p').text()
+            resultResponse.genre = rootHeader.find('.detail > .gens')
+                .text().trim().replace(/ /g, ', ')
+            resultResponse.duration = rootHeader.find('.detail > .durs > span')
+                .text().trim()
+            resultResponse.network = rootHeader.find('.detail > .durs > a')
+                .text().trim()
+            resultResponse.synopsis = selectorContent('#synopsis > p').text().trim()
 
             // casters
             const tempCasters = []
-            rootBody.find('div[class="caster m-3"] > a')
+            rootHeader.find('.detail > .casts > p > a')
                 .each((i, elm) => { tempCasters.push(selectorContent(elm).text()) })
             resultResponse.casters = tempCasters.join(', ')
 
