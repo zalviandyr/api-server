@@ -78,11 +78,7 @@ class MovieController {
             resultResponse.synopsis = root.find('div#movie-synopsis > div > p').text()
 
             // download page
-            const responseDownload = await axios.get(downloadUrl)
-            const selectorDownload = cheerio.load(responseDownload.data)
-            const downloadUrl2 = selectorDownload('a#downloadbutton').attr('href')
-
-            await downloadPage.goto(downloadUrl2, { waitUntil: 'domcontentloaded' })
+            await downloadPage.goto(downloadUrl, { waitUntil: 'domcontentloaded' })
 
             const xpathDownloadTable = '//div[@class="table-responsive"]'
             await downloadPage.waitForXPath(xpathDownloadTable)
