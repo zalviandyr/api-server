@@ -20,7 +20,7 @@ class Movie2Controller {
         }
 
         search = search.replace(/ /g, '+')
-        const url = `https://www.driverays.net/?s=${search}`
+        const url = `https://167.86.71.48/?s=${search}`
 
         try {
             // search page
@@ -41,12 +41,12 @@ class Movie2Controller {
             const root = selectorContent('div#main-content')
             const rootHeader = root.children('div.tpost')
             const rootDetail = root.children('div.info_movie').children('div.postdetail')
-            const rootDownload = root.find('table.download > tbody > tr:not(.ini)')
+            const rootDownload = root.find('#dl_tab > div')
 
             const resultResponse = {}
             resultResponse.thumb = rootHeader.find('div > img').attr('src')
             resultResponse.score = rootHeader.find('div > div > span.bg-yellow-105').first().text()
-            resultResponse.quality = rootHeader.find('div > div > span.bg-orange-500').last().text()
+            resultResponse.quality = rootHeader.find('div > div > span.bg-blue-500').last().text()
             resultResponse.title = rootDetail.children('h1').text()
 
             // year, country and duration
@@ -70,13 +70,21 @@ class Movie2Controller {
             // downloads
             resultResponse.downloads = []
             rootDownload.each((i, elm) => {
-                const tempTd = selectorContent(elm).children('td')
-                const server = selectorContent(tempTd.get(0)).text()
-                const description = selectorContent(tempTd.get(1)).text()
-                const link = selectorContent(tempTd.get(1)).children('a').attr('href')
-                const size = selectorContent(tempTd.get(2)).text()
+                const download = []
+                const resolution = selectorContent(elm).children('.resol').text()
+                const size = selectorContent(elm).find('.dl_links > b').text().trim()
+
+                selectorContent(elm).find('.dl_links > a').each((i2, elm2) => {
+                    const server = selectorContent(elm2).text()
+                    const link = selectorContent(elm2).attr('href')
+
+                    download.push({
+                        server, link,
+                    })
+                })
+
                 resultResponse.downloads.push({
-                    server, description, link, size,
+                    resolution, size, download,
                 })
             })
 
