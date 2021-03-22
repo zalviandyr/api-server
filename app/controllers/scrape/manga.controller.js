@@ -1,6 +1,5 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const urlParse = require('url').parse
 const { CustomMessage } = require('helpers/CustomMessage')
 
 class MangaController {
@@ -46,11 +45,9 @@ class MangaController {
             const resultResponse = {}
             resultResponse.note = root.children('div').first().text()
             resultResponse.thumb = (() => {
-                const temp = root.find('img.lazyload').attr('src')
+                const temp = root.find('img.lazyload').attr('data-src')
 
-                const parsePath = urlParse(temp).pathname
-                const first = parsePath.search('https')
-                return parsePath.substring(first, parsePath.length)
+                return temp
             })()
 
             resultResponse.title = root.find('td.tr-caption').text()
