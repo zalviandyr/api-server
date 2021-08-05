@@ -8,7 +8,11 @@ class HomeController {
 
     controller() {
         const { response } = this
-        return new CustomMessage(response).success('Rest api by Zukron Alviandy')
+        return new CustomMessage(response).success({
+            author: 'ZalviandyR',
+            github: 'https://github.com/zalviandyr/api-server',
+            message: 'Rest api by Zukron Alviandy',
+        })
     }
 }
 

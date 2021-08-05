@@ -9,7 +9,8 @@ class App extends Route {
         const port = process.env.PORT || 4000
 
         app.enable('trust proxy')
-        app.use('/api', super.init())
+        app.use('/', super.public())
+        app.use('/api', super.api())
         app.listen(port, () => {
             console.log(`Server started at port: ${port}`)
         })
