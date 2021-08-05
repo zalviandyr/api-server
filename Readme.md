@@ -2,33 +2,33 @@
 
 ## Installation
 
--   Install dependencies
+- Install dependencies
 
-    ```bash
-    > npm i
-    ```
+  ```bash
+  > npm i
+  ```
 
--   Setting .env (Environment)
+- Setting .env (Environment)
 
 ## Installation on Heroku
 
--   Create App
+- Create App
 
-    ```bash
-    > heroku app [app-name]
-    ```
+  ```bash
+  > heroku app [app-name]
+  ```
 
--   Add Buildpack Puppeteer
+- Add Buildpack Puppeteer
 
-    ```bash
-    > heroku buildpacks:add jontewks/puppeteer
-    ```
+  ```bash
+  > heroku buildpacks:add jontewks/puppeteer
+  ```
 
--   Push into Heroku
+- Push into Heroku
 
-    ```bash
-    > git push heroku master
-    ```
+  ```bash
+  > git push heroku master
+  ```
 
 ## Base URL
 
@@ -130,3 +130,7 @@
 | Random |
 | Kanye  |
 | Agamis |
+
+## Note
+
+- Feel free to contribute and create an issue
