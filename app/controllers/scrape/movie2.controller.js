@@ -1,3 +1,4 @@
+const https = require('https')
 const axios = require('axios')
 const cheerio = require('cheerio')
 const { CustomMessage } = require('helpers/CustomMessage')
@@ -24,7 +25,10 @@ class Movie2Controller {
 
         try {
             // search page
-            const responseSearch = await axios.get(url)
+            const agent = new https.Agent({ rejectUnauthorized: false });
+            const responseSearch = await axios.get(url, {
+                httpsAgent: agent,
+            })
             const selectorSearch = cheerio.load(responseSearch.data)
             const searchResult = selectorSearch(selectorSearch('div#movies > div').get(1)).children('div')
             const firstSearchUrl = searchResult.first().children('a').attr('href')
@@ -36,7 +40,9 @@ class Movie2Controller {
             }
 
             // content page
-            const responseContent = await axios.get(firstSearchUrl)
+            const responseContent = await axios.get(firstSearchUrl, {
+                httpsAgent: agent,
+            })
             const selectorContent = cheerio.load(responseContent.data)
             const root = selectorContent('div#main-content')
             const rootHeader = root.children('div.tpost')
