@@ -1,9 +1,9 @@
-require('module-alias/register')
-require('dotenv').config()
-const swaggerAutogen = require('swagger-autogen')()
+require('module-alias/register');
+require('dotenv').config();
+const swaggerAutogen = require('swagger-autogen')();
 
-const outputFile = './swagger-output.json'
-const endpointFiles = ['./docs/endpoints/bmkg.js']
+const outputFile = './swagger-output.json';
+const endpointFiles = ['./docs/endpoints/bmkg.js'];
 
 const doc = {
     info: {
@@ -22,6 +22,6 @@ const doc = {
             description: 'BMKG endpoint',
         },
     ],
-}
+};
 
-swaggerAutogen(outputFile, endpointFiles, doc)
+swaggerAutogen(outputFile, endpointFiles, doc);

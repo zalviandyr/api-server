@@ -1,18 +1,18 @@
-const { KusonimeController } = require('controllers/scrape/kusonime.controller')
-const { ArtiNamaController } = require('controllers/scrape/arti-nama.controller')
-const { PasanganController } = require('controllers/scrape/pasangan.controller')
-const { PenyakitController } = require('controllers/scrape/penyakit.controller')
-const { PekerjaanController } = require('controllers/scrape/pekerjaan.controller')
-const { DrakorasiaController } = require('controllers/scrape/drakorasia.controller')
-const { LirikController } = require('controllers/scrape/lirik.controller')
-const { MovieController } = require('controllers/scrape/movie.controller')
-const { Movie2Controller } = require('controllers/scrape/movie2.controller')
-const { MangaController } = require('controllers/scrape/manga.controller')
-const { WikipediaController } = require('controllers/scrape/wikipedia.controller')
-const { TiktokController } = require('controllers/scrape/tiktok.controller')
-const { NeonimeController } = require('controllers/scrape/neonime.controller')
-const { NekopoiController } = require('controllers/scrape/nekopoi.controller')
-const { Controller } = require('cores/Controller')
+const { KusonimeController } = require('controllers/scrape/kusonime.controller');
+const { ArtiNamaController } = require('controllers/scrape/arti-nama.controller');
+const { PasanganController } = require('controllers/scrape/pasangan.controller');
+const { PenyakitController } = require('controllers/scrape/penyakit.controller');
+const { PekerjaanController } = require('controllers/scrape/pekerjaan.controller');
+const { DrakorasiaController } = require('controllers/scrape/drakorasia.controller');
+const { LirikController } = require('controllers/scrape/lirik.controller');
+const { MovieController } = require('controllers/scrape/movie.controller');
+const { Movie2Controller } = require('controllers/scrape/movie2.controller');
+const { MangaController } = require('controllers/scrape/manga.controller');
+const { WikipediaController } = require('controllers/scrape/wikipedia.controller');
+const { TiktokController } = require('controllers/scrape/tiktok.controller');
+const { NeonimeController } = require('controllers/scrape/neonime.controller');
+const { NekopoiController } = require('controllers/scrape/nekopoi.controller');
+const { Controller } = require('cores/Controller');
 
 class ScrapeRoute extends Controller {
     route() {
@@ -31,8 +31,8 @@ class ScrapeRoute extends Controller {
             this.get('/tiktok', (req, res) => new TiktokController(req, res).controller()),
             this.get('/neonime', (req, res) => new NeonimeController(req, res).controller()),
             this.get('/nekopoi', (req, res) => new NekopoiController(req, res).controller()),
-        ]
+        ];
     }
 }
 
-module.exports = { ScrapeRoute }
+module.exports = { ScrapeRoute };

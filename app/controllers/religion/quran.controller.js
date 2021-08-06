@@ -1,18 +1,18 @@
-const axios = require('axios')
-const { CustomMessage } = require('helpers/CustomMessage')
+const axios = require('axios');
+const { CustomMessage } = require('helpers/CustomMessage');
 
 class QuranController {
     constructor(req, res) {
-        this.request = req
-        this.response = res
+        this.request = req;
+        this.response = res;
     }
 
     async controller() {
-        const { response } = this
+        const { response } = this;
 
         try {
-            const url = 'https://api.banghasan.com/quran/format/json/acak'
-            const result = await axios.get(url)
+            const url = 'https://api.banghasan.com/quran/format/json/acak';
+            const result = await axios.get(url);
 
             const resultResponse = {
                 surat: result.data.surat.nama,
@@ -28,16 +28,16 @@ class QuranController {
                     teks_id: result.data.acak.id.teks,
                     teks_ar: result.data.acak.ar.teks,
                 },
-            }
+            };
 
-            return new CustomMessage(response).success(resultResponse)
+            return new CustomMessage(response).success(resultResponse);
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500)
+            }, 500);
         }
     }
 }
 
-module.exports = { QuranController }
+module.exports = { QuranController };

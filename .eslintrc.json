@@ -10,7 +10,6 @@
   },
   "parser": "babel-eslint",
   "rules": {
-    "semi": "off",
     "linebreak-style": "off",
     "indent": ["error", 4],
     "max-len": "off",

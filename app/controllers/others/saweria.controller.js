@@ -1,21 +1,21 @@
-const SaweriaClient = require('saweria')
-const { CustomMessage } = require('helpers/CustomMessage')
-const { authentication } = require('helpers/values')
+const SaweriaClient = require('saweria');
+const { CustomMessage } = require('helpers/CustomMessage');
+const { authentication } = require('helpers/values');
 
 class SaweriaController {
     constructor(req, res) {
-        this.request = req
-        this.response = res
+        this.request = req;
+        this.response = res;
     }
 
     async controller() {
-        const { response } = this
+        const { response } = this;
 
         try {
-            const client = new SaweriaClient()
-            await client.login(authentication.saweria.email, authentication.saweria.password)
-            const transactions = await client.getTransaction()
-            const user = await client.getUser()
+            const client = new SaweriaClient();
+            await client.login(authentication.saweria.email, authentication.saweria.password);
+            const transactions = await client.getTransaction();
+            const user = await client.getUser();
 
             const result = {
                 username: user.username,
@@ -30,16 +30,16 @@ class SaweriaController {
                     youtube: user.socials.youtube,
                 },
                 transactions,
-            }
+            };
 
-            return new CustomMessage(response).success(result)
+            return new CustomMessage(response).success(result);
         } catch (err) {
             return new CustomMessage(response).error({
                 status_code: 500,
                 message: err.message,
-            }, 500)
+            }, 500);
         }
     }
 }
 
-module.exports = { SaweriaController }
+module.exports = { SaweriaController };

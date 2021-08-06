@@ -33,8 +33,8 @@ const urlBmkg = {
     sumateraBarat: 'https://data.bmkg.go.id/datamkg/MEWS/DigitalForecast/DigitalForecast-SumateraBarat.xml',
     sumateraSelatan: 'https://data.bmkg.go.id/datamkg/MEWS/DigitalForecast/DigitalForecast-SumateraSelatan.xml',
     sumateraUtara: 'https://data.bmkg.go.id/datamkg/MEWS/DigitalForecast/DigitalForecast-SumateraUtara.xml',
-}
-exports.urlBmkg = urlBmkg
+};
+exports.urlBmkg = urlBmkg;
 
 const authentication = {
     igBlade: {
@@ -48,8 +48,8 @@ const authentication = {
         email: process.env.SAWERIA_EMAIL,
         password: process.env.SAWERIA_PASSWORD,
     },
-}
-exports.authentication = authentication
+};
+exports.authentication = authentication;
 
 const filePath = {
     kabupatenKota: './storages/kabupaten-kota.json',
@@ -60,14 +60,14 @@ const filePath = {
     waifuPic: './storages/waifu-pic.json',
     yaoiPic: './storages/yaoi-pic.json',
     animeWallpaper: './storages/anime-wallpaper-pic.json',
-}
-exports.filePath = filePath
+};
+exports.filePath = filePath;
 
 const puppeteerValues = {
     options: { args: ["--proxy-server='direct://'", '--proxy-bypass-list=*', '--no-sandbox', '--disable-setuid-sandbox'], headless: true },
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
-}
-exports.puppeteerValues = puppeteerValues
+};
+exports.puppeteerValues = puppeteerValues;
 
 const shortTitleDrakorasia = [
     {
@@ -107,5 +107,5 @@ const shortTitleDrakorasia = [
         shortName: 'RC',
         name: 'Racaty',
     },
-]
-exports.shortTitleDrakorasia = shortTitleDrakorasia
+];
+exports.shortTitleDrakorasia = shortTitleDrakorasia;
