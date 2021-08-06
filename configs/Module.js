@@ -1,9 +1,15 @@
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const cors = require('cors')
 
 class Module {
     constructor(app) {
         this.app = app
+    }
+
+    cors() {
+        const { app } = this
+        app.use(cors())
     }
 
     bodyParser() {

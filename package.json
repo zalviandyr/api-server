@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js",
+    "swagger:gen": "node ./docs/swagger.js",
+    "heroku-postbuild": "npm run swagger:gen",
     "lint": "eslint . --fix",
     "prepare": "husky install"
   },
@@ -25,6 +27,7 @@
     "body-parser": "^1.19.0",
     "camaro": "^6.0.4",
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fbvideos": "^1.0.2",
@@ -38,6 +41,8 @@
     "puppeteer": "^5.5.0",
     "querystring": "^0.2.0",
     "saweria": "^1.2.4",
+    "swagger-autogen": "^2.11.1",
+    "swagger-ui-express": "^4.1.6",
     "trev": "^2.0.8",
     "url": "^0.11.0"
   },
@@ -47,9 +52,9 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.22.1",
+    "husky": "^7.0.0",
     "lint-staged": "^11.1.1",
-    "nodemon": "^2.0.12",
-    "husky": "^7.0.0"
+    "nodemon": "^2.0.12"
   },
   "_moduleAliases": {
     "cores": "core/",
@@ -61,6 +66,12 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "./docs/",
+      "README"
     ]
   }
 }
