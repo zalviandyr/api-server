@@ -4,7 +4,7 @@ module.exports = (app) => {
         // #swagger.tags = ['Other']
         // #swagger.description = 'Menampilkan list kabupaten kota di indonesia'
         /* #swagger.parameters['provinsi'] = {
-            description: 'Optional',
+            description: 'Optional. Jika tidak di isi maka menampilkan semua provinsi',
         } */
         const { provinsi } = req.query;
         res.status(200).send(true);
