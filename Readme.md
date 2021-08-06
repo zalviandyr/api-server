@@ -75,46 +75,45 @@
 
 ## Endpoint
 
-| Name     | Method | Endpoint         | Query / Body                   | Value                                  |
-| -------- | ------ | ---------------- | ------------------------------ | -------------------------------------- |
-| BMKG     | GET    | /info-gempa      | -                              | -                                      |
-| BMKG     | GET    | /cuaca           | day (Optional), kabupaten      | -                                      |
-| Other    | GET    | /kabupaten-kota  | provinsi                       | -                                      |
-| Other    | GET    | /covid-indonesia | -                              | -                                      |
-| Other    | GET    | /quote-maker     | author, quote                  | -                                      |
-| Other    | GET    | /meme            | -                              | -                                      |
-| Other    | GET    | /translate       | text                           | -                                      |
-| Other    | GET    | /bosan           | -                              | -                                      |
-| Other    | GET    | /anime-pic       | genre                          | [Genre List](#anime-pic-genre-list)    |
-| Other    | GET    | /speech          | lang, text                     | [Language List](#speech-language-list) |
-| Other    | GET    | /quote           | type                           | [Quote List](#quote-type-list)         |
-| Other    | GET    | /what-anime      | limit (Optional), url          | -                                      |
-| Other    | POST   | /what-anime      | {image: [base64 image encode]} | -                                      |
-| Other    | GET    | /saweria         | -                              | -                                      |
-| Religion | GET    | /jadwal-sholat   | kota                           | -                                      |
-| Religion | GET    | /quran           | -                              | -                                      |
-| Religion | GET    | /surat           | surat, ayat (Optional)         | -                                      |
-| Religion | GET    | /alkitab         | name, chapter, number          | -                                      |
-| Scrape   | GET    | /kusonime        | search                         | -                                      |
-| Scrape   | GET    | /arti-nama       | nama                           | -                                      |
-| Scrape   | GET    | /pasangan        | nama1, nama2                   | -                                      |
-| Scrape   | GET    | /penyakit        | tanggal (DD-MM-YYYY)           | -                                      |
-| Scrape   | GET    | /pekerjaan       | tanggal (DD-MM-YYYY)           | -                                      |
-| Scrape   | GET    | /drakorasia      | search                         | -                                      |
-| Scrape   | GET    | /lirik           | search                         | -                                      |
-| Scrape   | GET    | /movie           | search                         | -                                      |
-| Scrape   | GET    | /movie2          | search                         | -                                      |
-| Scrape   | GET    | /manga           | keyword                        | -                                      |
-| Scrape   | GET    | /wiki            | keyword                        | -                                      |
-| Scrape   | GET    | /tiktok          | url                            | -                                      |
-| Scrape   | GET    | /neonime         | search                         | -                                      |
-| Scrape   | GET    | /nekopoi         | -                              | -                                      |
-| Social   | GET    | /fb-video        | url                            | -                                      |
-| Social   | GET    | /ig-profile      | username                       | -                                      |
-| Social   | GET    | /ig              | url                            | -                                      |
-| Youtube  | GET    | /yt-audio        | url                            | -                                      |
-| Youtube  | GET    | /yt-video        | url                            | -                                      |
-| Youtube  | GET    | /yt-search       | search                         | -                                      |
+| Name     | Method | Endpoint         | Query / Body              | Value                                  |
+| -------- | ------ | ---------------- | ------------------------- | -------------------------------------- |
+| BMKG     | GET    | /info-gempa      | -                         | -                                      |
+| BMKG     | GET    | /cuaca           | day (Optional), kabupaten | -                                      |
+| Other    | GET    | /kabupaten-kota  | provinsi                  | -                                      |
+| Other    | GET    | /covid-indonesia | -                         | -                                      |
+| Other    | GET    | /quote-maker     | author, quote             | -                                      |
+| Other    | GET    | /meme            | -                         | -                                      |
+| Other    | GET    | /translate       | text                      | -                                      |
+| Other    | GET    | /bosan           | -                         | -                                      |
+| Other    | GET    | /anime-pic       | genre                     | [Genre List](#anime-pic-genre-list)    |
+| Other    | GET    | /speech          | lang, text                | [Language List](#speech-language-list) |
+| Other    | GET    | /quote           | type                      | [Quote List](#quote-type-list)         |
+| Other    | GET    | /what-anime      | limit (Optional), url     | -                                      |
+| Other    | GET    | /saweria         | -                         | -                                      |
+| Religion | GET    | /jadwal-sholat   | kota                      | -                                      |
+| Religion | GET    | /quran           | -                         | -                                      |
+| Religion | GET    | /surat           | surat, ayat (Optional)    | -                                      |
+| Religion | GET    | /alkitab         | name, chapter, number     | -                                      |
+| Scrape   | GET    | /kusonime        | search                    | -                                      |
+| Scrape   | GET    | /arti-nama       | nama                      | -                                      |
+| Scrape   | GET    | /pasangan        | nama1, nama2              | -                                      |
+| Scrape   | GET    | /penyakit        | tanggal (DD-MM-YYYY)      | -                                      |
+| Scrape   | GET    | /pekerjaan       | tanggal (DD-MM-YYYY)      | -                                      |
+| Scrape   | GET    | /drakorasia      | search                    | -                                      |
+| Scrape   | GET    | /lirik           | search                    | -                                      |
+| Scrape   | GET    | /movie           | search                    | -                                      |
+| Scrape   | GET    | /movie2          | search                    | -                                      |
+| Scrape   | GET    | /manga           | keyword                   | -                                      |
+| Scrape   | GET    | /wiki            | keyword                   | -                                      |
+| Scrape   | GET    | /tiktok          | url                       | -                                      |
+| Scrape   | GET    | /neonime         | search                    | -                                      |
+| Scrape   | GET    | /nekopoi         | -                         | -                                      |
+| Social   | GET    | /fb-video        | url                       | -                                      |
+| Social   | GET    | /ig-profile      | username                  | -                                      |
+| Social   | GET    | /ig              | url                       | -                                      |
+| Youtube  | GET    | /yt-audio        | url                       | -                                      |
+| Youtube  | GET    | /yt-video        | url                       | -                                      |
+| Youtube  | GET    | /yt-search       | search                    | -                                      |
 
 ## Anime-Pic Genre List
 
