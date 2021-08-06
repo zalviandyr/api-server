@@ -18,7 +18,7 @@ class IgController {
             }, 400);
         }
 
-        const urlGram = 'https://downloadgram.com/';
+        const urlGram = 'https://keeppost.com/';
         const browser = await puppeteer.launch(puppeteerValues.options);
         try {
             const page = await browser.newPage();

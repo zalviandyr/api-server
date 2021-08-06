@@ -7,6 +7,8 @@ const endpointFiles = [
     './docs/endpoints/bmkg.js',
     './docs/endpoints/religion.js',
     './docs/endpoints/scrape.js',
+    './docs/endpoints/social.js',
+    './docs/endpoints/youtube.js',
     './docs/endpoints/other.js',
 ];
 
@@ -33,6 +35,14 @@ const doc = {
         {
             name: 'Scrape',
             description: 'Scrape endpoint',
+        },
+        {
+            name: 'Social',
+            description: 'Social endpoint',
+        },
+        {
+            name: 'Youtube',
+            description: 'Youtube endpoint',
         },
         {
             name: 'Other',
