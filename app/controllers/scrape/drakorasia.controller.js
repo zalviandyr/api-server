@@ -21,7 +21,7 @@ class DrakorasiaController {
         }
 
         const keyword = search.replace(/ /g, '+')
-        const url = `https://drakorasia.net/?s=${keyword}&post_type=post`
+        const url = `https://drakorasia.cc/?s=${keyword}&post_type=post`
 
         try {
             // search page
@@ -29,7 +29,7 @@ class DrakorasiaController {
             const selectorSearch = cheerio.load(responseSearch.data)
             const searchResult = selectorSearch('#latest > .grid')
             const firstSearchUrl = searchResult.find('#post > .cover > .thumbnail > a').attr('href')
-            if (searchResult.contents().length === 1) {
+            if (firstSearchUrl === undefined) {
                 return new CustomMessage(response).error({
                     status_code: 404,
                     message: 'Maaf, tidak ada hasil untuk mu',
