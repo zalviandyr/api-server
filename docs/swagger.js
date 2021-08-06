@@ -3,7 +3,12 @@ require('dotenv').config();
 const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = './swagger-output.json';
-const endpointFiles = ['./docs/endpoints/bmkg.js'];
+const endpointFiles = [
+    './docs/endpoints/bmkg.js',
+    './docs/endpoints/religion.js',
+    './docs/endpoints/scrape.js',
+    './docs/endpoints/other.js',
+];
 
 const doc = {
     info: {
@@ -13,13 +18,25 @@ const doc = {
     },
     host: process.env.API_HOST,
     basePath: '/api',
-    schemes: ['https'],
+    schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
         {
             name: 'BMKG',
             description: 'BMKG endpoint',
+        },
+        {
+            name: 'Religion',
+            description: 'Religion endpoint',
+        },
+        {
+            name: 'Scrape',
+            description: 'Scrape endpoint',
+        },
+        {
+            name: 'Other',
+            description: 'Other endpoint',
         },
     ],
 };
