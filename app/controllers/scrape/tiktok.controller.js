@@ -31,29 +31,22 @@ class TiktokController {
             await page.type('input#url', url)
             await page.click('button[type="submit"]')
 
-            const xpathDownload = '//div[@id="div_download"]/section/div[@class="container"]/div/div'
-            await page.waitForXPath(xpathDownload)
-            const [elementsDownload] = await page.$x(xpathDownload)
-            const result = await page.evaluate((element) => {
-                const thumb = element.querySelector('article > div.zhay-left > img').getAttribute('src')
-                const title = element.querySelector('article > div.zhay-middle > h1').innerText
-                const description = element.querySelector('article > div.zhay-middle > p:nth-child(2)').innerText
-                const date = element.querySelector('article > div.zhay-middle > p:nth-child(3)').innerText
-                const downloads = (() => {
-                    const temp = []
-                    const aList = element.querySelectorAll('article > div.zhay-right > div > a')
-                    for (let i = 0; i < aList.length; i++) {
-                        const link = aList[i].getAttribute('href')
-
-                        temp.push(link)
-                    }
-                    return temp
-                })()
-
-                return {
-                    thumb, title, description, date, downloads,
+            const downloadSelector = '#download-block > div > a'
+            await page.waitForSelector(downloadSelector)
+            const thumb = await page.$eval('.snaptik-left > img', (pageEval) => pageEval.getAttribute('src'))
+            const title = await page.$eval('.snaptik-middle > h3', (pageEval) => pageEval.textContent)
+            const description = await page.$eval('.snaptik-middle > p > span', (pageEval) => pageEval.textContent)
+            const download = await page.$$eval(downloadSelector, (pageEval) => {
+                const downloads = []
+                for (let i = 0; i < pageEval.length; i++) {
+                    downloads.push(pageEval[i].getAttribute('href'))
                 }
-            }, elementsDownload)
+                return downloads
+            })
+
+            const result = {
+                thumb, title, description, download,
+            }
 
             return new CustomMessage(response).success(result, 200, async () => { browser.close() })
         } catch (err) {
