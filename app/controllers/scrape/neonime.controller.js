@@ -20,14 +20,14 @@ class NeonimeController {
         }
 
         search = search.replace(/ /g, '+')
-        const url = `https://neonime.vip/?s=${search}`
+        const url = `https://neonime.site/?s=${search}`
 
         const responseSearch = await axios.get(url)
         const selectorSearch = cheerio.load(responseSearch.data)
         const firstSearchResultUrl = selectorSearch('div[class="item_1 items"] > div').first().find('a').attr('href')
         const type = selectorSearch('div[class="item_1 items"] > div').first().find('span[class="calidad2 episode"]').text()
         const noResult = selectorSearch('div[class="no_contenido_home"]')
-        if (noResult.length !== 0) {
+        if (noResult.length === 1) {
             return new CustomMessage(response).error({
                 status_code: 404,
                 message: 'Maaf, tidak ada hasil untuk mu',
