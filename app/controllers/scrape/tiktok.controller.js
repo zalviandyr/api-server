@@ -28,6 +28,7 @@ class TiktokController {
             await page.setUserAgent(puppeteerValues.userAgent)
 
             await page.goto(urlDownloader)
+            await page.waitForSelector('input#url')
             await page.type('input#url', url)
             await page.click('button[type="submit"]')
 
