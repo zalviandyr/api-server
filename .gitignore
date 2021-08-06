@@ -9,5 +9,8 @@ package-lock.json
 testing.js
 storage/garbage
 
+# Swagger document
+swagger-output.json
+
 # Environment
 .env

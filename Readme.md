@@ -8,6 +8,12 @@
   > npm i
   ```
 
+- Generate swagger documentation
+
+  ```bash
+  > npm run swagger:gen
+  ```
+
 - Setting .env (Environment)
 
 ## Installation on Heroku
@@ -30,9 +36,42 @@
   > git push heroku master
   ```
 
+## Command
+
+- Start server
+
+  ```bash
+  > npm start
+  ```
+
+- Start development server
+
+  ```bash
+  > npm run start:dev
+  ```
+
+- Linter to formatting file .js
+
+  ```bash
+  > npm run lint
+  ```
+
+- Generate swagger document
+  ```bash
+  > npm run swagger:gen
+  ```
+
 ## Base URL
 
-`http://127.0.0.1/api`
+`https://zalviandyr-api.herokuapp.com/`
+
+## API URL
+
+`https://zalviandyr-api.herokuapp.com/api`
+
+## Documentation URL
+
+`https://zalviandyr-api.herokuapp.com/docs`
 
 ## Endpoint
 
