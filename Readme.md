@@ -36,7 +36,13 @@
   > git push heroku master
   ```
 
-## Command
+## Production
+
+- Build server
+
+  ```bash
+  > npm run build
+  ```
 
 - Start server
 
@@ -50,15 +56,42 @@
   > npm run start:dev
   ```
 
-- Linter to formatting file .js
+- Server running on `127.0.0.1:4000`
+
+## Development
+
+- Build server
+
+  ```bash
+  > npm run build:dev
+  ```
+
+- Build alias path server
+
+  ```bash
+  > npm run build:dev:alias
+  ```
+
+- Start server
+
+  ```bash
+  > npm run start:dev
+  ```
+
+- Server running on `127.0.0.1:4000`
+
+## Command
+
+- Linter to check formatting file
 
   ```bash
   > npm run lint
   ```
 
-- Generate swagger document
+- Linter to fix formatting file
+
   ```bash
-  > npm run swagger:gen
+  > npm run lint:fix
   ```
 
 ## Base URL
@@ -120,12 +153,13 @@
 | NSFW          | SFW          |
 | ------------- | ------------ |
 | ass           | neko         |
-| bdsm          | foxgirl      |
+| bdsm          | sfwfoxes     |
 | blowjob       | husbu        |
 | cum           | lolisfw      |
 | doujin        | randomsfw    |
 | feet          | inori        |
 | femdom        | wallpapersfw |
+| foxgirl       |
 | glasses       |
 | hentai        |
 | loli          |
@@ -136,12 +170,14 @@
 | panties       |
 | pussy         |
 | school        |
+| succubus      |
 | tentacles     |
 | thighs        |
 | uglybastard   |
 | uniform       |
 | yuri          |
 | yaoi          |
+| zettaiRyouiki |
 | wallpapernsfw |
 | randomnsfw    |
 
