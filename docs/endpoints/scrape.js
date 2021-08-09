@@ -95,14 +95,6 @@ module.exports = (app) => {
         res.status(200).send(true);
     });
 
-    app.get('/tiktok', (req, res) => {
-        // #swagger.tags = ['Scrape']
-        // #swagger.description = 'Mengkonversi video tiktok berdasarkan url menjadi download link'
-        // #swagger.parameters['url'] = { required: true }
-        const { url } = req.query;
-        res.status(200).send(true);
-    });
-
     app.get('/neonime', (req, res) => {
         // #swagger.tags = ['Scrape']
         // #swagger.description = 'Menampilkan hasil search di neonime'

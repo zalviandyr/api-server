@@ -1,4 +1,3 @@
-require('module-alias/register');
 require('dotenv').config();
 const swaggerAutogen = require('swagger-autogen')();
 
@@ -8,7 +7,6 @@ const endpointFiles = [
     './docs/endpoints/religion.js',
     './docs/endpoints/scrape.js',
     './docs/endpoints/social.js',
-    './docs/endpoints/youtube.js',
     './docs/endpoints/other.js',
 ];
 
@@ -39,10 +37,6 @@ const doc = {
         {
             name: 'Social',
             description: 'Social endpoint',
-        },
-        {
-            name: 'Youtube',
-            description: 'Youtube endpoint',
         },
         {
             name: 'Other',
