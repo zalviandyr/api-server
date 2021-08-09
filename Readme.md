@@ -155,11 +155,11 @@
 | ass           | neko         |
 | bdsm          | sfwfoxes     |
 | blowjob       | husbu        |
-| cum           | lolisfw      |
-| doujin        | randomsfw    |
-| feet          | inori        |
-| femdom        | wallpapersfw |
-| foxgirl       |
+| cum           | inori        |
+| doujin        | lolisfw      |
+| feet          | randomsfw    |
+| femdom        | shota        |
+| foxgirl       | wallpapersfw |
 | glasses       |
 | hentai        |
 | loli          |
