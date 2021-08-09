@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable arrow-body-style */
 module.exports = (app) => {
     app.get('/info-gempa', (req, res) => {
         // #swagger.tags = ['BMKG']

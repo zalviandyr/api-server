@@ -3,6 +3,7 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = './swagger-output.json';
 const endpointFiles = [
+    './docs/endpoints/anime.js',
     './docs/endpoints/bmkg.js',
     './docs/endpoints/religion.js',
     './docs/endpoints/scrape.js',
@@ -18,10 +19,14 @@ const doc = {
     },
     host: process.env.API_HOST,
     basePath: '/api',
-    schemes: ['https', 'http'],
+    schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
+        {
+            name: 'Anime',
+            description: 'Anime endpoint',
+        },
         {
             name: 'BMKG',
             description: 'BMKG endpoint',

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = (app) => {
     app.get('/jadwal-sholat', (req, res) => {
         // #swagger.tags = ['Religion']

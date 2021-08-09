@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = (app) => {
     app.get('/tiktok', (req, res) => {
         // #swagger.tags = ['Social']

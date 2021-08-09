@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = (app) => {
     app.get('/kabupaten-kota', (req, res) => {
         // #swagger.tags = ['Other']
@@ -46,16 +45,6 @@ module.exports = (app) => {
     app.get('/bosan', (req, res) => {
         // #swagger.tags = ['Other']
         // #swagger.description = 'Menampilkan kegiatan di saat bosan'
-        res.status(200).send(true);
-    });
-
-    app.get('/anime-pic', (req, res) => {
-        // #swagger.tags = ['Other']
-        // #swagger.description = 'Menampilkan gambar anime sesuai genre, [List Genre](https://github.com/zalviandyr/api-server#anime-pic-genre-list)'
-        /* #swagger.parameters['genre'] = {
-            required: true,
-        } */
-        const { genre } = req.query;
         res.status(200).send(true);
     });
 

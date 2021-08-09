@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 module.exports = (app) => {
     app.get('/kusonime', (req, res) => {
         // #swagger.tags = ['Scrape']
