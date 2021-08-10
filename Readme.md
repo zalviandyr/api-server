@@ -36,7 +36,7 @@
   > git push heroku master
   ```
 
-## Production
+## Running on Production
 
 - Build server
 
@@ -50,15 +50,9 @@
   > npm start
   ```
 
-- Start development server
-
-  ```bash
-  > npm run start:dev
-  ```
-
 - Server running on `127.0.0.1:4000`
 
-## Development
+## Running on Development
 
 - Build server
 
@@ -106,9 +100,9 @@
 
 ## Documentation URL
 
-- Use schema `http` in localhost
+- Use swagger schema `http` in localhost
 - `http://127.0.0.1:4000/docs`
-- Use schema `https` in hosting
+- Use swagger schema `https` in hosting
 - `https://zalviandyr-api.herokuapp.com/docs`
 
 ## Anime-Pic Genre List
