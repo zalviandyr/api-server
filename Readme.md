@@ -96,15 +96,20 @@
 
 ## Base URL
 
-`https://zalviandyr-api.herokuapp.com/`
+- Local: `https://127.0.0.1:4000`
+- Hosting: `https://zalviandyr-api.herokuapp.com/`
 
 ## API URL
 
-`https://zalviandyr-api.herokuapp.com/api`
+- Local: `http://127.0.0.1:4000/api`
+- Hosting: `https://zalviandyr-api.herokuapp.com/api`
 
 ## Documentation URL
 
-`https://zalviandyr-api.herokuapp.com/docs`
+- Use schema `http` in localhost
+- `http://127.0.0.1:4000/docs`
+- Use schema `https` in hosting
+- `https://zalviandyr-api.herokuapp.com/docs`
 
 ## Anime-Pic Genre List
 
