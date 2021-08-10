@@ -10,7 +10,7 @@
     "build:dev": "tsc --watch",
     "build:dev:alias": "tsc-alias -p tsconfig.json --watch",
     "swagger:gen": "node ./docs/swagger.js",
-    "heroku-postbuild": "npm audit fix && npm run swagger:gen",
+    "heroku-postbuild": "npm run build && npm audit fix && npm run swagger:gen",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
     "prepare": "husky install"
