@@ -4,9 +4,10 @@ const swaggerAutogen = require('swagger-autogen')();
 const outputFile = './swagger-output.json';
 const endpointFiles = [
     './docs/endpoints/anime.js',
-    './docs/endpoints/bmkg.js',
-    './docs/endpoints/religion.js',
-    './docs/endpoints/scrape.js',
+    './docs/endpoints/film.js',
+    './docs/endpoints/forecast.js',
+    './docs/endpoints/religion/religion.js',
+    './docs/endpoints/religion/muslim.js',
     './docs/endpoints/social.js',
     './docs/endpoints/other.js',
 ];
@@ -28,16 +29,20 @@ const doc = {
             description: 'Anime endpoint',
         },
         {
-            name: 'BMKG',
-            description: 'BMKG endpoint',
+            name: 'Film',
+            description: 'Film endpoint',
+        },
+        {
+            name: 'Forecast',
+            description: 'Forecast endpoint',
         },
         {
             name: 'Religion',
             description: 'Religion endpoint',
         },
         {
-            name: 'Scrape',
-            description: 'Scrape endpoint',
+            name: 'Religion / Muslim',
+            description: 'Muslim endpoint',
         },
         {
             name: 'Social',
