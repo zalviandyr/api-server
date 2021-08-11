@@ -2,7 +2,7 @@ import { Response } from 'express';
 import axios from 'axios';
 import fsPromise from 'fs/promises';
 import Controller from '@core/Controller';
-import { FilePath } from '@helpers/enums';
+import Filepath from '@helpers/filepath';
 import ResponseMessage from '@helpers/response-message';
 
 export default class IndonesiaController extends Controller {
@@ -23,7 +23,10 @@ export default class IndonesiaController extends Controller {
   }
 
   async kabupatenKota(): Promise<Response> {
-    const result = await fsPromise.readFile(FilePath.KabupatenKota, 'utf8');
+    const result = await fsPromise.readFile(
+      Filepath.indonesia.kabupatenKota,
+      'utf8',
+    );
     return this.successResponse(JSON.parse(result));
   }
 
@@ -31,7 +34,10 @@ export default class IndonesiaController extends Controller {
     const { req } = this;
     const { provinsi } = req.params;
 
-    const result = await fsPromise.readFile(FilePath.KabupatenKota, 'utf8');
+    const result = await fsPromise.readFile(
+      Filepath.indonesia.kabupatenKota,
+      'utf8',
+    );
     const json = JSON.parse(result);
     for (let i = 0; i < json.length; i++) {
       if (provinsi.toLowerCase() === json[i].nama.toLowerCase()) {

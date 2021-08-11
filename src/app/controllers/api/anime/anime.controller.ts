@@ -3,7 +3,8 @@ import axios from 'axios';
 import fsPromise from 'fs/promises';
 import { Response } from 'express';
 import Controller from '@core/Controller';
-import { ListGenreAnimePic, FilePath } from '@helpers/enums';
+import { ListGenreAnimePic } from '@helpers/enums';
+import Filepath from '@helpers/filepath';
 import ResponseMessage from '@helpers/response-message';
 
 export default class AnimeController extends Controller {
@@ -32,17 +33,17 @@ export default class AnimeController extends Controller {
       if (genre === ListGenreAnimePic.Neko) type = akaneko.neko();
       if (genre === ListGenreAnimePic.SFWFoxes) type = akaneko.sfwfoxes();
       if (genre === ListGenreAnimePic.Husbu)
-        type = this.getType(FilePath.HusbuPic);
+        type = this.getType(Filepath.animePicture.husbu);
       if (genre === ListGenreAnimePic.Inori)
-        type = this.getType(FilePath.InoriPic);
+        type = this.getType(Filepath.animePicture.inori);
       if (genre === ListGenreAnimePic.LoliSFW)
-        type = this.getType(FilePath.LoliSFWPic);
+        type = this.getType(Filepath.animePicture.loliSFW);
       if (genre === ListGenreAnimePic.RandomSFW)
-        type = this.getType(FilePath.WaifuPic);
+        type = this.getType(Filepath.animePicture.waifu);
       if (genre === ListGenreAnimePic.Shota)
-        type = this.getType(FilePath.ShotaPic);
+        type = this.getType(Filepath.animePicture.shota);
       if (genre === ListGenreAnimePic.WallpaperSFW)
-        type = this.getType(FilePath.AnimeWallpaper);
+        type = this.getType(Filepath.animePicture.animeWallpaper);
 
       // NSFW
       if (genre === ListGenreAnimePic.Ass) type = akaneko.nsfw.ass();
@@ -56,7 +57,7 @@ export default class AnimeController extends Controller {
       if (genre === ListGenreAnimePic.Glasses) type = akaneko.nsfw.glasses();
       if (genre === ListGenreAnimePic.Hentai) type = akaneko.nsfw.hentai();
       if (genre === ListGenreAnimePic.Loli)
-        type = this.getType(FilePath.LoliNSFWPic);
+        type = this.getType(Filepath.animePicture.loliNSFW);
       if (genre === ListGenreAnimePic.Netorare) type = akaneko.nsfw.netorare();
       if (genre === ListGenreAnimePic.Maid) type = akaneko.nsfw.maid();
       if (genre === ListGenreAnimePic.Masturbation)
@@ -74,7 +75,7 @@ export default class AnimeController extends Controller {
       if (genre === ListGenreAnimePic.Uniform) type = akaneko.nsfw.uniform();
       if (genre === ListGenreAnimePic.Yuri) type = akaneko.nsfw.yuri();
       if (genre === ListGenreAnimePic.Yaoi)
-        type = this.getType(FilePath.YaoiPic);
+        type = this.getType(Filepath.animePicture.yaoi);
       if (genre === ListGenreAnimePic.WallpaperNSFW)
         type = akaneko.nsfw.mobileWallpapers();
 

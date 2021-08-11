@@ -34,7 +34,6 @@ module.exports = (app) => {
     app.get('/kabupaten-kota', (req, res) => {
         // #swagger.tags = ['Other']
         // #swagger.description = 'Menampilkan list kabupaten kota dan provinsi di indonesia'
-        const { provinsi } = req.query;
         res.status(200).send(true);
         res.status(404).send(false);
     });

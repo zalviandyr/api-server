@@ -3,7 +3,8 @@ import axios from 'axios';
 import fsPromise from 'fs/promises';
 import translate from '@k3rn31p4nic/google-translate-api';
 import Controller from '@core/Controller';
-import { FilePath, QuoteGenreList } from '@helpers/enums';
+import { QuoteGenreList } from '@helpers/enums';
+import Filepath from '@helpers/filepath';
 import ResponseMessage from '@helpers/response-message';
 
 export default class QuoteController extends Controller {
@@ -17,7 +18,7 @@ export default class QuoteController extends Controller {
 
     if (Object.values<string>(QuoteGenreList).includes(genre as string)) {
       if (genre === QuoteGenreList.Random) {
-        const path = FilePath.Quotes;
+        const path = Filepath.quotes.quotes;
         const result = await fsPromise.readFile(path, 'utf8');
         const quoteJson = JSON.parse(result);
         const random = Math.floor(Math.random() * quoteJson.length);
@@ -48,7 +49,7 @@ export default class QuoteController extends Controller {
       }
 
       if (genre === QuoteGenreList.Agamis) {
-        const path = FilePath.QuotesAgamis;
+        const path = Filepath.quotes.quotesAgamis;
         const result = await fsPromise.readFile(path, 'utf8');
         const json = JSON.parse(result);
         const random = Math.floor(Math.random() * json.length);

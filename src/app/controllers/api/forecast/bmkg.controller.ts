@@ -4,8 +4,8 @@ import { transform as camaroTransform } from 'camaro';
 import { Response } from 'express';
 import Controller from '@core/Controller';
 import { urlProvinsiBMKG } from '@helpers/values';
-import { FilePath } from '@helpers/enums';
 import { toCamelCase } from '@helpers/utilities';
+import Filepath from '@helpers/filepath';
 import ResponseMessage from '@helpers/response-message';
 
 export default class BMKGController extends Controller {
@@ -62,7 +62,7 @@ export default class BMKGController extends Controller {
     })();
 
     // read file kabupaten.json
-    const path = FilePath.KabupatenKota;
+    const path = Filepath.indonesia.kabupatenKota;
     const data = await fsPromise.readFile(path, 'utf8');
 
     const dataJson = JSON.parse(data);

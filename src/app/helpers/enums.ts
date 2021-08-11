@@ -1,17 +1,3 @@
-export enum FilePath {
-  KabupatenKota = './storages/kabupaten-kota.json',
-  Quotes = './storages/quotes.json',
-  QuotesAgamis = './storages/quotes-agamis.json',
-  HusbuPic = './storages/husbu-pic.json',
-  InoriPic = './storages/inori-pic.json',
-  WaifuPic = './storages/waifu-pic.json',
-  YaoiPic = './storages/yaoi-pic.json',
-  AnimeWallpaper = './storages/anime-wallpaper-pic.json',
-  LoliSFWPic = './storages/lolisfw-pic.json',
-  LoliNSFWPic = './storages/lolinsfw-pic.json',
-  ShotaPic = './storages/shota-pic.json',
-}
-
 export enum ListGenreAnimePic {
   // SFW
   Neko = 'neko',
