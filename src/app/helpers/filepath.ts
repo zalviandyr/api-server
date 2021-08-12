@@ -18,4 +18,14 @@ export default class Filepath {
   static indonesia = {
     kabupatenKota: './storages/indonesia/kabupaten-kota.json',
   };
+
+  static muslim = {
+    bacaanShalat: './storages/muslim/bacaan-shalat.json',
+    doa: {
+      ayatKursi: './storages/muslim/doa/ayat-kursi.json',
+      harian: './storages/muslim/doa/harian.json',
+      tahlil: './storages/muslim/doa/tahlil.json',
+      wirid: './storages/muslim/doa/wirid.json',
+    },
+  };
 }

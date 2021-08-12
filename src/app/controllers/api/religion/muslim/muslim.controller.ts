@@ -1,16 +1,18 @@
 import { Response } from 'express';
 import axios from 'axios';
+import fsPromise from 'fs/promises';
 import Controller from '@core/Controller';
+import Filepath from '@helpers/filepath';
 
 export default class MuslimController extends Controller {
-  async jadwalSholat(): Promise<Response> {
+  async jadwalShalat(): Promise<Response> {
     const url =
       'https://raw.githubusercontent.com/lakuapik/jadwalsholatorg/master/kota.json';
     const { data } = await axios.get(url);
     return this.successResponse(data);
   }
 
-  async jadwalSholatKota(): Promise<Response> {
+  async jadwalShalatKota(): Promise<Response> {
     const { req } = this;
     const { kota } = req.params;
 
@@ -20,5 +22,11 @@ export default class MuslimController extends Controller {
     const { data } = await axios.get(url);
     const dateToday = parseInt(today[2]) - 1;
     return this.successResponse(data[dateToday]);
+  }
+
+  async bacaanShalat(): Promise<Response> {
+    const path = Filepath.muslim.bacaanShalat;
+    const data = await fsPromise.readFile(path, 'utf8');
+    return this.successResponse(JSON.parse(data));
   }
 }
