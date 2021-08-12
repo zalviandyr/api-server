@@ -17,9 +17,48 @@ module.exports = (app) => {
         res.status(200).send(true);
     })
 
+    app.get('/muslim/niat-shalat', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan niat shalat'
+        res.status(200).send(true);
+    })
+
+    app.get('/muslim/asmaul-husna', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan list asmaul husna'
+        res.status(200).send(true);
+    })
+
     app.get('/muslim/random/ayat', (req, res) => {
         // #swagger.tags = ['Religion / Muslim']
         // #swagger.description = 'Menampilkan satu ayat random di quran'
+        res.status(200).send(true);
+    });
+
+    app.get('/muslim/random/asmaul-husna', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan random asmaul husna'
+        res.status(200).send(true);
+    });
+
+    app.get('/muslim/random/wallpaper', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan random wallpaper'
+        res.status(200).send(true);
+    });
+
+    app.get('/muslim/nabi', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan list nabi'
+        res.status(200).send(true);
+    });
+
+    app.get('/muslim/nabi/:slugNabi', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan detail nabi dan kisahnya'
+        /* #swagger.parameters['slugNabi'] = {
+            description: 'Slug nabi yang didapatkan di endpoint list nabi'
+        } */
         res.status(200).send(true);
     });
 

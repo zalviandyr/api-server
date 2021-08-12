@@ -25,7 +25,19 @@ export default class MuslimController extends Controller {
   }
 
   async bacaanShalat(): Promise<Response> {
-    const path = Filepath.muslim.bacaanShalat;
+    const path = Filepath.muslim.shalat.bacaan;
+    const data = await fsPromise.readFile(path, 'utf8');
+    return this.successResponse(JSON.parse(data));
+  }
+
+  async niatShalat(): Promise<Response> {
+    const path = Filepath.muslim.shalat.niat;
+    const data = await fsPromise.readFile(path, 'utf8');
+    return this.successResponse(JSON.parse(data));
+  }
+
+  async asmaulHusna(): Promise<Response> {
+    const path = Filepath.muslim.asmaulHusna;
     const data = await fsPromise.readFile(path, 'utf8');
     return this.successResponse(JSON.parse(data));
   }

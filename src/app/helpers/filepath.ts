@@ -20,12 +20,22 @@ export default class Filepath {
   };
 
   static muslim = {
-    bacaanShalat: './storages/muslim/bacaan-shalat.json',
+    asmaulHusna: './storages/muslim/asmaul-husna.json',
+    wallpaper: './storages/muslim/wallpaper.json',
     doa: {
       ayatKursi: './storages/muslim/doa/ayat-kursi.json',
       harian: './storages/muslim/doa/harian.json',
       tahlil: './storages/muslim/doa/tahlil.json',
       wirid: './storages/muslim/doa/wirid.json',
+    },
+    nabi: {
+      list: './storages/muslim/nabi/list.json',
+      kisah: (slugNabi: string): string =>
+        `./storages/muslim/nabi/kisah/${slugNabi}.json`,
+    },
+    shalat: {
+      bacaan: './storages/muslim/shalat/bacaan.json',
+      niat: './storages/muslim/shalat/niat.json',
     },
   };
 }
