@@ -31,7 +31,7 @@ export default class AnimeController extends Controller {
 
       // SFW
       if (genre === ListGenreAnimePic.Neko) type = akaneko.neko();
-      if (genre === ListGenreAnimePic.SFWFoxes) type = akaneko.sfwfoxes();
+      if (genre === ListGenreAnimePic.SFWFoxes) type = akaneko.foxgirl();
       if (genre === ListGenreAnimePic.Husbu)
         type = this.getType(Filepath.animePicture.husbu);
       if (genre === ListGenreAnimePic.Inori)

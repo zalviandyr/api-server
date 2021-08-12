@@ -8,7 +8,7 @@ import FilmRoute from '@routes/api/film.route';
 import OtherRoute from '@routes/api/other.route';
 import ReligionRoute from '@routes/api/religion.route';
 
-export class RegisterRouter {
+export default class RegisterRouter {
   protected api(): Array<Array<ExpressRouter>> {
     return [
       new AnimeRoute().route(),

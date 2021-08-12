@@ -1,9 +1,10 @@
 import 'dotenv/config';
 
+import express from 'express';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import fsPromise from 'fs/promises';
-import { app } from './app';
-import { RegisterRouter } from '@config/RegisterRouter';
+import RegisterRouter from '@config/RegisterRouter';
 
 class App extends RegisterRouter {
   async init(): Promise<void> {
@@ -14,6 +15,8 @@ class App extends RegisterRouter {
       await fsPromise.readFile('./swagger-output.json', 'utf-8'),
     );
 
+    const app = express();
+    app.use(cors());
     app.enable('trust proxy');
     app.use('/', ...this.public());
     app.use('/api', ...this.api());
