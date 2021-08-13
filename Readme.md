@@ -91,19 +91,19 @@
 ## Base URL
 
 - Local: `https://127.0.0.1:4000`
-- Hosting: `https://zalviandyr-api.herokuapp.com/`
+- Hosting: `https://zera-api.herokuapp.com/`
 
 ## API URL
 
 - Local: `http://127.0.0.1:4000/api`
-- Hosting: `https://zalviandyr-api.herokuapp.com/api`
+- Hosting: `https://zera-api.herokuapp.com/api`
 
 ## Documentation URL
 
 - Use swagger schema `http` in localhost
 - `http://127.0.0.1:4000/docs`
 - Use swagger schema `https` in hosting
-- `https://zalviandyr-api.herokuapp.com/docs`
+- `https://zera-api.herokuapp.com/docs`
 
 ## Anime-Pic Genre List
 
