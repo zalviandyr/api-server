@@ -35,6 +35,12 @@ module.exports = (app) => {
         res.status(200).send(true);
     });
 
+    app.get('/muslim/random/quote', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan satu quote random'
+        res.status(200).send(true);
+    });
+
     app.get('/muslim/random/asmaul-husna', (req, res) => {
         // #swagger.tags = ['Religion / Muslim']
         // #swagger.description = 'Menampilkan random asmaul husna'

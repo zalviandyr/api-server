@@ -34,6 +34,14 @@ export default class RandomController extends Controller {
     return this.successResponse(json[random]);
   }
 
+  async quote(): Promise<Response> {
+    const path = Filepath.quotes.quotesAgamis;
+    const data = await fsPromise.readFile(path, 'utf8');
+    const json = JSON.parse(data);
+    const random = Math.floor(Math.random() * json.length);
+    return this.successResponse(json[random]);
+  }
+
   async wallpaper(): Promise<Response> {
     const path = Filepath.muslim.wallpaper;
     const data = await fsPromise.readFile(path, 'utf8');

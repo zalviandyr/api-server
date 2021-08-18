@@ -103,6 +103,17 @@ describe('/ Muslim', () => {
     );
 
     test(
+      'GET /api/muslim/random/quote',
+      async () => {
+        await supertest(app)
+          .get('/api/muslim/random/quote')
+          .set('Content-Type', 'application/json')
+          .expect(200);
+      },
+      App.defaultTimeout,
+    );
+
+    test(
       'GET /api/muslim/random/asmaul-husna',
       async () => {
         await supertest(app)

@@ -26,6 +26,7 @@ export default class ReligionRoute extends Router {
       // muslim/random
       this.get('/muslim/random/ayat', RandomController, 'ayat'),
       this.get('/muslim/random/asmaul-husna', RandomController, 'asmaulHusna'),
+      this.get('/muslim/random/quote', RandomController, 'quote'),
       this.get('/muslim/random/wallpaper', RandomController, 'wallpaper'),
 
       // muslim/nabi
