@@ -107,14 +107,11 @@ module.exports = (app) => {
         res.status(200).send(true);
     });
 
-    app.get('/muslim/quran/:surat/:ayat', (req, res) => {
+    app.get('/muslim/quran/:surat/ayat', (req, res) => {
         // #swagger.tags = ['Religion / Muslim']
-        // #swagger.description = 'Menampilkan surat berdasarkan ayat'
+        // #swagger.description = 'Menampilkan list ayat berdasarkan surat'
         /* #swagger.parameters['surat'] = {
             description: 'Nomor surat',
-        } */
-        /* #swagger.parameters['ayat'] = {
-            description: 'Nomor ayat. Contoh, 1-7'
         } */
         res.status(200).send(true);
     });

@@ -234,10 +234,10 @@ describe('/ Muslim', () => {
     );
 
     test(
-      'GET /api/muslim/quran/:surat/:ayat',
+      'GET /api/muslim/quran/:surat/ayat',
       async () => {
         await supertest(app)
-          .get('/api/muslim/quran/1/1')
+          .get('/api/muslim/quran/1')
           .set('Content-Type', 'application/json')
           .expect(200);
       },

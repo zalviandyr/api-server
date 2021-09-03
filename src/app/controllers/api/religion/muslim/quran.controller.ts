@@ -27,18 +27,18 @@ export default class QuranController extends Controller {
     const { req } = this;
     const { surat } = req.params;
 
-    const urlSurat = `https://api.banghasan.com/quran/format/json/surat/${surat}`;
+    const urlSurat = `https://quran-endpoint.herokuapp.com/quran/${surat}`;
     const { data } = await axios.get(urlSurat);
-    const [json] = data.hasil;
+    const json = data.data;
     const resultResponse = {
-      surat: json.nama,
-      asma: json.asma,
-      surat_ke: json.nomor,
-      arti: json.arti,
-      tipe: json.type,
-      keterangan: json.keterangan,
-      jumlah_ayat: json.ayat,
-      rukuk: json.rukuk,
+      surat: json.asma.id.short,
+      asma: json.asma.ar.short,
+      surat_ke: json.number,
+      arti: json.asma.translation.id,
+      tipe: json.type.id,
+      keterangan: json.tafsir.id,
+      jumlah_ayat: json.ayahCount,
+      audio_url_full: json.recitation.full,
     };
 
     return this.successResponse(resultResponse);
@@ -46,24 +46,25 @@ export default class QuranController extends Controller {
 
   async quranSuratAyat(): Promise<Response> {
     const { req } = this;
-    const { surat, ayat } = req.params;
-    const urlAyat = `https://api.banghasan.com/quran/format/json/surat/${surat}/ayat/${ayat}`;
+    const { surat } = req.params;
+    const urlAyat = `https://quran-endpoint.herokuapp.com/quran/${surat}`;
     const { data } = await axios.get(urlAyat);
-    const jsonAyat = data.ayat;
+    const json = data.data;
     const resultResponse = {
-      surat: data.surat.nama,
-      asma: data.surat.asma,
-      surat_ke: data.surat.nomor,
-      arti: data.surat.arti,
-      tipe: data.surat.type,
-      keterangan: data.surat.keterangan,
-      jumlah_ayat: data.surat.ayat,
-      rukuk: data.surat.rukuk,
-      ayat: jsonAyat.proses.map((val: number) => {
+      surat: json.asma.id.short,
+      asma: json.asma.ar.short,
+      surat_ke: json.number,
+      arti: json.asma.translation.id,
+      tipe: json.type.id,
+      keterangan: json.tafsir.id,
+      jumlah_ayat: json.ayahCount,
+      audio_url_full: json.recitation.full,
+      ayat: json.ayahs.map((val: any) => {
         return {
-          ayat_ke: val,
-          teks_id: jsonAyat.data.id[val - 1].teks,
-          teks_ar: jsonAyat.data.ar[val - 1].teks,
+          ayat_ke: val.number.insurah,
+          teks_id: val.translation.id,
+          teks_ar: val.text.ar,
+          audio_url: val.audio.url,
         };
       }),
     };
