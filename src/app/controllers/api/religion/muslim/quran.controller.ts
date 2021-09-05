@@ -4,19 +4,19 @@ import Controller from '@core/Controller';
 
 export default class QuranController extends Controller {
   async quran(): Promise<Response> {
-    const url = 'https://api.banghasan.com/quran/format/json/surat';
+    const url = 'https://quran-endpoint.herokuapp.com/quran';
     const { data } = await axios.get(url);
 
-    const result = data.hasil.map((val: any) => {
+    const result = data.data.map((val: any) => {
       return {
-        surat: val.nama,
-        asma: val.asma,
-        surat_ke: val.nomor,
-        arti: val.arti,
-        tipe: val.type,
-        keterangan: val.keterangan,
-        jumlah_ayat: val.ayat,
-        rukuk: val.rukuk,
+        surat: val.asma.id.short,
+        asma: val.asma.ar.short,
+        surat_ke: val.number,
+        arti: val.asma.translation.id,
+        tipe: val.type.id,
+        keterangan: val.tafsir.id,
+        jumlah_ayat: val.ayahCount,
+        audio_url_full: val.recitation.full,
       };
     });
 
