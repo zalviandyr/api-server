@@ -29,6 +29,18 @@ module.exports = (app) => {
         res.status(200).send(true);
     })
 
+    app.get('/muslim/qiblat', (req, res) => {
+        // #swagger.tags = ['Religion / Muslim']
+        // #swagger.description = 'Menampilkan arah kiblat berdasarkan latitude dan longitude'
+        /* #swagger.parameters['lat'] = {
+            description: 'Latitude posisi user'
+        } */
+        /* #swagger.parameters['long'] = {
+            description: 'Longitude posisi user'
+        } */
+        res.status(200).send(true);
+    })
+
     app.get('/muslim/random/ayat', (req, res) => {
         // #swagger.tags = ['Religion / Muslim']
         // #swagger.description = 'Menampilkan satu ayat random di quran'

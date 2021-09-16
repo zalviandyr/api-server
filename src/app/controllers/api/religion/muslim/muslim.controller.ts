@@ -3,6 +3,7 @@ import axios from 'axios';
 import fsPromise from 'fs/promises';
 import Controller from '@core/Controller';
 import Filepath from '@helpers/filepath';
+import ResponseMessage from '@helpers/response-message';
 
 export default class MuslimController extends Controller {
   async jadwalShalat(): Promise<Response> {
@@ -39,5 +40,26 @@ export default class MuslimController extends Controller {
     const path = Filepath.muslim.asmaulHusna;
     const data = await fsPromise.readFile(path, 'utf8');
     return this.successResponse(JSON.parse(data));
+  }
+
+  async qiblat(): Promise<Response> {
+    const { req } = this;
+    const { lat, long } = req.query;
+
+    if (!lat && !long) {
+      return this.errorResponse(
+        ResponseMessage.queryRequired(['lat', 'long'], ['123', '123']),
+      );
+    }
+
+    const url = `http://api.aladhan.com/v1/qibla/${lat}/${long}`;
+    const { data } = await axios.get(url);
+    const result = data.data;
+    const resultResponse = {
+      latitude: result.latitude,
+      longitude: result.longitude,
+      direction: result.direction,
+    };
+    return this.successResponse(resultResponse);
   }
 }

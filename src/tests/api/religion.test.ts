@@ -90,6 +90,17 @@ describe('/ Muslim', () => {
     App.defaultTimeout,
   );
 
+  test(
+    'GET /api/muslim/qiblat',
+    async () => {
+      await supertest(app)
+        .get('/api/muslim/qiblat?lat=123&long=123')
+        .set('Content-Type', 'application/json')
+        .expect(200);
+    },
+    App.defaultTimeout,
+  );
+
   describe('/ Random', () => {
     test(
       'GET /api/muslim/random/ayat',
