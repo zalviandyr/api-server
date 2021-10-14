@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Writable } from 'stream';
 import axios from 'axios';
-import translate from '@k3rn31p4nic/google-translate-api';
+import translate from 'google-translate-api';
 import Controller from '@core/Controller';
 import ResponseMessage from '@helpers/response-message';
 import { SpeechLangList } from '@helpers/enums';

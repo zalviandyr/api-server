@@ -2,7 +2,7 @@ import { Response } from 'express';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
-import translate from '@k3rn31p4nic/google-translate-api';
+import translate from 'google-translate-api';
 import SaweriaClient from 'saweria';
 import Controller from '@core/Controller';
 import { authentication, puppeteerValues } from '@helpers/values';

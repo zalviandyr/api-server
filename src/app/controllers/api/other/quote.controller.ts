@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import axios from 'axios';
 import fsPromise from 'fs/promises';
-import translate from '@k3rn31p4nic/google-translate-api';
+import translate from 'google-translate-api';
 import Controller from '@core/Controller';
 import { QuoteGenreList } from '@helpers/enums';
 import Filepath from '@helpers/filepath';
