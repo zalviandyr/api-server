@@ -27,7 +27,6 @@
   "license": "MIT",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
-    "@k3rn31p4nic/google-translate-api": "^1.1.1",
     "akaneko": "^5.2.1",
     "axios": "^0.21.1",
     "camaro": "^6.0.4",
@@ -38,6 +37,7 @@
     "express-async-handler": "^1.1.4",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
+    "google-translate-api": "^2.3.0",
     "got": "^11.8.2",
     "moment": "^2.29.1",
     "puppeteer": "^5.5.0",
