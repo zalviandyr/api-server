@@ -120,7 +120,9 @@ export default class OtherController extends Controller {
         browser.close(),
       );
     } catch (err) {
-      return this.errorResponse(err.message, 400, () => browser.close());
+      return this.errorResponse((err as any).message, 400, () =>
+        browser.close(),
+      );
     }
   }
 
@@ -150,11 +152,11 @@ export default class OtherController extends Controller {
 
       return this.successResponse({ title: title.text(), result: textClean });
     } catch (err) {
-      if (err.response.status === 404) {
+      if ((err as any).response.status === 404) {
         return this.errorResponse(ResponseMessage.notFound);
       }
 
-      throw new Error(err.message);
+      throw new Error((err as any).message);
     }
   }
 }
